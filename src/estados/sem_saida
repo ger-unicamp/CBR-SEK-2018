@@ -1,0 +1,73 @@
+/*
+**
+** Código referente ao estado sem saída IEEE SEK 2018
+** GER - Grupo de Estudos em Robótica
+** 20/03/2018
+**
+*/
+
+/* Definicoes de direcoes das interseccoes */
+#define DIREITA 1
+#define FRENTE 2
+#define ESQUERDA 3
+
+/* Definicoes de calibracao */
+#define CALIBRA_GIRO 3.1
+#define CALIBRA_RETO 21.7
+
+/* Variaveis globais */
+int sem_saida = 0;
+bool plaza = false, volta = false;
+
+/*Funcao girar robo
+** Param: angulo (em graus), sentido (DIREITA ou ESQUERDA)
+*/
+void GirarRobo (float angulo, int sentido){
+	float encoder;
+
+	encoder = (angulo*CALIBRA_GIRO);
+
+	//GIRAR DIREITA
+	if(sentido == DIREITA){
+		encoder = encoder;
+		setMotorSyncEncoder(dir,esq,100,encoder,-30);
+
+		waitUntilMotorStop(dir);
+		waitUntilMotorStop(esq);
+
+		}else{
+		if(sentido == ESQUERDA){
+			encoder = encoder;
+			setMotorSyncEncoder(dir,esq,-100,encoder,-30);
+
+			waitUntilMotorStop(dir);
+			waitUntilMotorStop(esq);
+
+		}
+	}
+}
+
+/*Funcao andar reto
+** Param: sentido
+*/
+void AndarReto (int sentido){
+	setMotorSync(dir,esq,0.75,-sentido*POTENCIA);
+}
+
+/* Funcao para o estado sem saida
+** Param: nothing
+*/
+void semSaida(){
+	playSound(soundLowBuzz);
+	// gira o robo
+	GirarRobo(180, ESQUERDA);
+	sem_saida = 1;
+	//anda_x_cm(10);
+	estado = RETO;
+}
+
+taks main(){
+	while (true){
+		semSaida();
+	}
+}
