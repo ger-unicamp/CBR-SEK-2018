@@ -3,9 +3,9 @@ from ev3dev.ev3 import *
 from time import sleep
 
 # definicao de motores
-motorDireita =LargeMotor('outB')
-motorEsquerda =LargeMotor('outA')
-motorGarra = MediumMotor('outC')
+motorDireita = LargeMotor('outB')
+motorEsquerda = LargeMotor('outC')
+motorGarra = MediumMotor('outA')
 
 # definicao de sensores
 ultrassonico = UltrasonicSensor() 
@@ -46,17 +46,20 @@ def girarRobo(anguloDesejado):
     calibraGyro()
     
 def agarrarBoneco():
+    motorDireita.run_timed(time_sp=600, speed_sp=200)
+    motorEsquerda.run_timed(time_sp=600, speed_sp=200)
+    sleep(2)
     girarRobo(90)
     sleep(2)
-    motorGarra.run_to_rel_pos(position_sp=220, speed_sp=100, stop_action="hold")
-    sleep(1)
-    motorDireita.run_timed(time_sp=2000, speed_sp=200)
-    motorEsquerda.run_timed(time_sp=2000, speed_sp=200)
+    motorGarra.run_to_rel_pos(position_sp=290, speed_sp=100, stop_action="hold")
+    sleep(5)
+    motorDireita.run_timed(time_sp=1400, speed_sp=200)
+    motorEsquerda.run_timed(time_sp=1400, speed_sp=200)
     sleep(3)
-    motorGarra.run_to_rel_pos(position_sp=-270, speed_sp=100, stop_action="hold")
-    sleep(1)
-    motorDireita.run_timed(time_sp=2000, speed_sp=-200)
-    motorEsquerda.run_timed(time_sp=2000, speed_sp=-200)
+    motorGarra.run_to_rel_pos(position_sp=-300, speed_sp=100, stop_action="hold")
+    sleep(5)
+    motorDireita.run_timed(time_sp=1400, speed_sp=-200)
+    motorEsquerda.run_timed(time_sp=1400, speed_sp=-200)
     sleep(3)
     girarRobo(-90)
     calibraGyro()
@@ -65,11 +68,17 @@ def main():
     btn = Button()
     calibraGyro()	
     Sound.speak('Hello Humans!').wait()
+    i = 100
+    while i<200:
+        motorDireita.run_forever(speed_sp=i)
+        motorEsquerda.run_forever(speed_sp=i)
+        i = i+25
+        sleep(0.3)
     while btn.any()==False:
         distancia = ultrassonico.value()/10  # converte de mm para cm
-        if(distancia < 20):
-            motorDireita.run_forever(speed_sp=200)
-            motorEsquerda.run_forever(speed_sp=200)
+        if(distancia > 20):
+            motorDireita.run_forever(speed_sp=i)
+            motorEsquerda.run_forever(speed_sp=i)
         else:
             motorDireita.stop(stop_action="hold")
             motorEsquerda.stop(stop_action="hold")
