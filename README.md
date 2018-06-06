@@ -71,3 +71,5 @@ Sensores:
 * Émerson Kazuhiro Takematsu 
 * Maria Júlia Cristofoletti de Souza
 * Tiago Eidi Hatta
+* Wesna Simone Bulla de Araujo
+* Natan Rodrigues de Oliveira
