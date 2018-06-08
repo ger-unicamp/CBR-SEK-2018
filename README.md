@@ -73,3 +73,4 @@ Sensores:
 * Tiago Eidi Hatta
 * Wesna Simone Bulla de Araujo
 * Natan Rodrigues de Oliveira
+* Luis Felipe Brentegani
