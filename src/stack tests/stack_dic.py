@@ -6,7 +6,7 @@ class Pilha:
     def pop(self):
         if(len(self.pilha)!=0):
             # return self.pilha[len(self.pilha)-1]
-            del(self.pilha.items()[len(self.pilha)-1])
+            del(self.pilha.items()[len(self.pilha)-1])#problemas com o del em dicionarios
     def peek(self):
         if(len(self.pilha)!=0):
             return self.pilha[len(self.pilha)-1]
@@ -21,5 +21,3 @@ pilha.push(f'verde', 'dir')
 pilha.push(f'amarelo', 'ret')
 print(pilha)
 # pilha.pop()
-print(pilha)
-dic = {'Natan':13, 'Jose':12}
