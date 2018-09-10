@@ -49,8 +49,8 @@ def girarRobo(anguloDesejado):
     calibraGyro()
 
 def agarrarBoneco():
-    motorDireita.run_timed(time_sp=600, speed_sp=200)
-    motorEsquerda.run_timed(time_sp=600, speed_sp=200)
+    motorDireita.run_timed(time_sp=500, speed_sp=200)
+    motorEsquerda.run_timed(time_sp=500, speed_sp=200)
     sleep(2)
     girarRobo(90)
     sleep(2)
@@ -61,6 +61,7 @@ def agarrarBoneco():
     sleep(3)
     motorGarra.run_to_rel_pos(position_sp=-100, speed_sp=100, stop_action="hold")
     sleep(5)
+    #como subir a garra?
     motorDireita.run_timed(time_sp=1400, speed_sp=-200)
     motorEsquerda.run_timed(time_sp=1400, speed_sp=-200)
     sleep(3)
@@ -86,7 +87,7 @@ def main():
         else:
             motorDireita.run_forever(speed_sp=200)
             motorEsquerda.run_forever(speed_sp=200)
-    motorDireita.stop(stop_action="hold") #tentativa de parada
+    motorDireita.stop(stop_action="hold")
     motorEsquerda.stop(stop_action="hold")
 
 if __name__ == "__main__":

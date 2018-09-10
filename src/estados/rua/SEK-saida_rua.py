@@ -3,8 +3,8 @@ from ev3dev.ev3 import *
 from time import sleep
 
 # definicao de motores
-motorDireita = LargeMotor('outB')
-motorEsquerda = LargeMotor('outC')
+motorDireita = LargeMotor('outC')
+motorEsquerda = LargeMotor('outB')
 motorGarra = MediumMotor('outA')
 
 # definicao de sensores
