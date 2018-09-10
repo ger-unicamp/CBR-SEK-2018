@@ -8,17 +8,22 @@ motorEsquerda = LargeMotor('outC')
 motorGarra = MediumMotor('outA')
 
 # definicao de sensores
-ultrassonico = UltrasonicSensor() 
+ultrassonico = UltrasonicSensor()
 assert ultrassonico.connected, "Sensor ultrassonico nao conectado"
 ultrassonico.mode = 'US-DIST-CM'
 
 gyro = GyroSensor()
 assert gyro.connected, "Giroscopio nao conectado"
 
-sensorCor = ColorSensor()
+sensorCorDir = ColorSensor('in1')
 assert sensorCor.connected, "Sensor de cor nao conectado"
 sensorCor.mode='COL-COLOR'
 colors=('unknown','black','blue','green','yellow','red','white','brown')
+
+sensorCorEsq = ColorSensor('in4')
+assert sensorCor2.connected, "Sensor de cor nao conectado"
+sensorCor2.mode='COL-COLOR'
+
 
 def calibraGyro():
 	gyro.mode = 'GYRO-RATE'
@@ -72,7 +77,7 @@ def manobra1 () #DEFINIR AS VARIAVEIS DOS SENSORES DE COR !!!!!!!!!!!!!!!!!!!!!!
 			motorDireita.stop(stop_action="hold")
 			motorEsquerda.run_forever(speed_sp=10) #Gira roda esquerda
 		motorEsquerda.stop(stop_action="hold") #Para o robo na beirada da pista
-		sleep(5) 
+		sleep(5)
 		motorDireita.run_timed(time_sp=1400, speed_sp=-200) #Retorna ao meio da pista
 		motorEsquerda.run_timed(time_sp=1400, speed_sp=-200)
 		girarRobo(-90) #Gira para voltar ao percurso
@@ -80,7 +85,7 @@ def manobra1 () #DEFINIR AS VARIAVEIS DOS SENSORES DE COR !!!!!!!!!!!!!!!!!!!!!!
 		while(SensorCorEsq != SensorCorDir):
 			motorEsquerda.stop(stop_action="hold")
 			motorDireita.run_forever(speed_sp=10)
-		motorDireita.stop(stop_action="hold") 
+		motorDireita.stop(stop_action="hold")
 		sleep(5)
 		motorDireita.run_timed(time_sp=1400, speed_sp=-200)
 		motorEsquerda.run_timed(time_sp=1400, speed_sp=-200)
@@ -95,7 +100,6 @@ def manobra2 ():
 		while(SensorCorEsq != SensorCorDir):
 			motorDireita.run_forever(speed_sp=20)
 			motorEsquerda.run_forever(speed_sp=50)
-	
+
 
 def main():
-	
