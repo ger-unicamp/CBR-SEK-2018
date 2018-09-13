@@ -15,15 +15,14 @@ ultrassonico.mode = 'US-DIST-CM'
 gyro = GyroSensor()
 assert gyro.connected, "Giroscopio nao conectado"
 
-sensorCorDir = ColorSensor('in1')
-assert sensorCor.connected, "Sensor de cor nao conectado"
-sensorCor.mode='COL-COLOR'
-colors=('unknown','black','blue','green','yellow','red','white','brown')
+SensorCorDir = ColorSensor('in1')
+assert SensorCorDir.connected, "Sensor de cor nao conectado"
+SensorCorDir.mode='COL-COLOR'
+colors=('none','black','blue','green','yellow','red','white','brown')
 
-sensorCorEsq = ColorSensor('in4')
-assert sensorCor2.connected, "Sensor de cor nao conectado"
-sensorCor2.mode='COL-COLOR'
-
+SensorCorEsq = ColorSensor('in4')
+assert sensorCorEsq.connected, "Sensor de cor nao conectado"
+sensorCorEsq.mode='COL-COLOR'
 
 def calibraGyro():
 	gyro.mode = 'GYRO-RATE'
@@ -69,11 +68,11 @@ def agarrarBoneco():
 	girarRobo(-90)
 calibraGyro()
 
-def manobra1 () #DEFINIR AS VARIAVEIS DOS SENSORES DE COR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+def manobra1 (): #DEFINIR AS VARIAVEIS DOS SENSORES DE COR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	motorDireita.stop(stop_action="hold") #Para o robo para executar a manobra
 	motorEsquerda.stop(stop_action="hold")
-	if (SensorCorDir == none): #confere se o sensor direito está fora da pista
-		while(SensorCorEsq != SensorCorDir):
+	if (colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorDir.value()] == 'brown'): #confere se o sensor direito está fora da pista
+		while(SensorCorEsq.value() != SensorCorDir.value()):
 			motorDireita.stop(stop_action="hold")
 			motorEsquerda.run_forever(speed_sp=10) #Gira roda esquerda
 		motorEsquerda.stop(stop_action="hold") #Para o robo na beirada da pista
@@ -81,8 +80,8 @@ def manobra1 () #DEFINIR AS VARIAVEIS DOS SENSORES DE COR !!!!!!!!!!!!!!!!!!!!!!
 		motorDireita.run_timed(time_sp=1400, speed_sp=-200) #Retorna ao meio da pista
 		motorEsquerda.run_timed(time_sp=1400, speed_sp=-200)
 		girarRobo(-90) #Gira para voltar ao percurso
-	elif (SensorCorEsq == none): #Tudo igual de maneira antagonica
-		while(SensorCorEsq != SensorCorDir):
+	elif (colors[SensorCorEsq.value()] == 'none'): #Tudo igual de maneira antagonica
+		while(SensorCorEsq.value() != SensorCorDir.value()):
 			motorEsquerda.stop(stop_action="hold")
 			motorDireita.run_forever(speed_sp=10)
 		motorDireita.stop(stop_action="hold")
@@ -91,15 +90,25 @@ def manobra1 () #DEFINIR AS VARIAVEIS DOS SENSORES DE COR !!!!!!!!!!!!!!!!!!!!!!
 		motorEsquerda.run_timed(time_sp=1400, speed_sp=-200)
 		girarRobo(90)
 
-def manobra2 ():
-	if (SensorCorDir == none): #Confere se o sensor de cor direito está fora da pista
-		while(SensorCorEsq != SensorCorDir):
+def manobra2 (): #Não usaremos
+	if (colors[SensorCorDir.value()] == 'none'): #Confere se o sensor de cor direito está fora da pista
+		while(SensorCorEsq.value() != SensorCorDir.value()):
 			motorDireita.run_forever(speed_sp=50)
 			motorEsquerda.run_forever(speed_sp=20) #Diminui a potecia do motor esquedo e retorna à pista
-	elif (SensorCorEsq == none):
+	elif (colors[SensorCorEsq.value()] == 'none'):
 		while(SensorCorEsq != SensorCorDir):
 			motorDireita.run_forever(speed_sp=20)
 			motorEsquerda.run_forever(speed_sp=50)
 
 
-def main():
+def main(): #TESTES
+	motorEsquerda.run_forever(speed_sp=50)
+	motorDireita.run_forever(speed_sp=50)
+	if (colors[SensorCorDir.value()] == 'black') and (colors[SensorCorEsq.value()] =='black'):
+		print("PAROU")
+		motorDireita.stop(stop_action="hold")
+		motorEsquerda.stop(stop_action="hold")
+	elif (colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorDir.value()] == 'brown') or (colors[SensorCorEsq.value()] =='none'):
+		sleep(1)
+		if (colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorDir.value()] == 'brown') or (colors[SensorCorEsq.value()] =='none'):
+			manobra1()
