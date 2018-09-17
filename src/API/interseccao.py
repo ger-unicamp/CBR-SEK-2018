@@ -13,10 +13,6 @@ O metodo acessa poderia estar dentro do where_to_go, entretanto para o computado
 nao faz diferenca, logo a separacao desses metodos se fez para deixar mais claro
 a diferenca de cada um e quando usar. O acessa eh usado quando ja sabemos sobre todo o
 labirinto, por isso o nome. Analogamente, o where_to_go, usado quando ainda nao sabemos.
-
-Por estar em fase de testes, ainda sera feito uma descricao detalhada dos metodos aqui implementados.
-
-Caso queira ajudar na construcao desta pilha, faca o git clone deste repo e informe sua mudanca via comentarios!
 '''
 
 class Interseccao:
