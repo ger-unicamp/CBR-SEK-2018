@@ -28,9 +28,6 @@ for i in sensorUltra:
     i+=1
 
 #ordenação da list
-sensorUltra.sort
+sensorUltra.sort()
 
 print(sensorUltra[4]) # impressão das cores
-
-
-
