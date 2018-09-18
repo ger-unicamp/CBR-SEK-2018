@@ -75,7 +75,7 @@ def girarRobo(anguloDesejado):
 	motorEsquerda.stop(stop_action="hold")
 	calibraGyro()
 
-def main():#TODO: armazenar infos na pilha
+def main():
     btn = Button()
 	interseccao = Interseccao()
     calibraGyro()
