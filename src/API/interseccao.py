@@ -26,9 +26,9 @@ class Interseccao:
 		if self.iter[f'{cor}'] != -1:
 			return self.iter[f'{cor}']
 		else:
-			#a ideia do self.inter.values eh listar as direcoes que estao presentes 
-			#no dicinioario. entao, caso n tenha uma direcao ainda, em ordem crescente, 
-			#a testamos
+			#a ideia do self.inter.values eh listar as direcoes que estao presentes
+			#no dicinioario. entao, caso n tenha uma direcao ainda, em ordem crescente,
+			#a testamos na main
 			if 0 not in self.inter.values():
 				return 0
 			elif 1 not in self.inter.values():
