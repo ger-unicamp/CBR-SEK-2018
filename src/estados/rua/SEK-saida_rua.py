@@ -112,3 +112,6 @@ def main(): #TESTES
 		sleep(1)
 		if (colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorDir.value()] == 'brown') or (colors[SensorCorEsq.value()] =='none'):
 			manobra1()
+
+
+main()
