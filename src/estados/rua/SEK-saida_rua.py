@@ -75,19 +75,21 @@ def manobra1 (): #DEFINIR AS VARIAVEIS DOS SENSORES DE COR !!!!!!!!!!!!!!!!!!!!!
 		while((colors[SensorCorEsq.value()] == 'white'):
 			motorDireita.run_forever(speed_sp=0) #STOP ACTION
 			motorEsquerda.run_forever(speed_sp=90) #Gira roda esquerda
+		sleep(1)
 		motorEsquerda.run_forever(speed_sp=0) #Para o robo na beirada da pista #STOP ACTION
-		sleep(2)
-		motorDireita.run_timed(time_sp=1400, speed_sp=-200) #Retorna ao meio da pista
-		motorEsquerda.run_timed(time_sp=1400, speed_sp=-200)
+		sleep(1)
+		motorDireita.run_timed(time_sp=1100, speed_sp=-200) #Retorna ao meio da pista
+		motorEsquerda.run_timed(time_sp=1100, speed_sp=-200)
 		girarRobo(-90) #Gira para voltar ao percurso
 	elif (colors[SensorCorEsq.value()] == 'none'): #Tudo igual de maneira antagonica
 		while(colors[SensorCorDir.value()] == 'white'):
 			motorEsquerda.run_forever(speed_sp=0) #STOP ACTION
 			motorDireita.run_forever(speed_sp=90)
+		sleep(1)
 		motorDireita.run_forever(speed_sp=0) #STOP ACTION
-		sleep(2)
-		motorDireita.run_timed(time_sp=1400, speed_sp=-200)
-		motorEsquerda.run_timed(time_sp=1400, speed_sp=-200)
+		sleep(1)
+		motorDireita.run_timed(time_sp=1100, speed_sp=-200)
+		motorEsquerda.run_timed(time_sp=1100, speed_sp=-200)
 		girarRobo(90)
 
 # def manobra2 (): #Não usaremos
