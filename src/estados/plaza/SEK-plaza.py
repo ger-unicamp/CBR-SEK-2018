@@ -83,11 +83,11 @@ def plaza_modo1():
 	motorEsquerda.run_forever(speed_sp=0)
 	#Verifica distancia das paredes:
 	#dist_dir = UltrasonicSensor()
-	dist_dir = ultrassonico.value()
+	dist_dir = ultrassonico.value()/10
 	print("Distancia da direita: ", dist_dir)
 	sleep(1)
 	girarRobo(180)
-	dist_esq = ultrassonico.value()
+	dist_esq = ultrassonico.value()/10
 	print("Distancia da esquerda: ", dist_esq)
 	sleep(1)
 	if(dist_esq > dist_dir) and ((dist_esq - dist_dir)>3):
