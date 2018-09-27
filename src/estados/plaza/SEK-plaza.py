@@ -74,26 +74,29 @@ def plaza_entrega_boneco ():
 
 def plaza_modo1():
 	print("SAINDO DO PLAZA")
-	motorDireita.run_timed(time_sp=10000, speed_sp=200)
-	motorEsquerda.run_timed(time_sp=10000, speed_sp=200)
+	# motorDireita.run_timed(time_sp=10000, speed_sp=200)
+	# motorEsquerda.run_timed(time_sp=10000, speed_sp=200)
+	motorDireita.run_forever(speed_sp=-200)
+	motorEsquerda.run_forever(speed_sp=-200)
+	sleep(3)
 	motorDireita.run_forever(speed_sp=0)
 	motorEsquerda.run_forever(speed_sp=0)
-	sleep(1)
 	#Verifica distancia das paredes:
-	dist_dir = UltrasonicSensor()
+	#dist_dir = UltrasonicSensor()
+	dist_dir = ultrassonico.value()
 	print("Distancia da direita: ", dist_dir)
 	sleep(1)
 	girarRobo(180)
-	dist_esq = UltrasonicSensor()
+	dist_esq = ultrassonico.value()
 	print("Distancia da esquerda: ", dist_esq)
 	sleep(1)
-	if(dist_esq > dist_dir):
+	if(dist_esq > dist_dir) and ((dist_esq - dist_dir)>3):
 		#Anda para a esquerda
 		girarRobo(-90)
 		motorDireita.run_timed(time_sp=5*(dist_esq - dist_dir), speed_sp=50)
 		motorEsquerda.run_timed(time_sp=5*(dist_esq - dist_dir), speed_sp=50)
 		girarRobo(90)
-	else:
+	elif(dist_esq < dist_dir) and (dist_dir - dist_esq)>3):
 		#Anda para a direita
 		girarRobo(90)
 		motorDireita.run_timed(time_sp=5*(dist_esq - dist_dir), speed_sp=50)
