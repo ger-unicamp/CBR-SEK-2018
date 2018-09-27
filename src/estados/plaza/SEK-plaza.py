@@ -92,16 +92,16 @@ def plaza_modo1():
 	sleep(1)
 	if(dist_esq > dist_dir) and ((dist_esq - dist_dir)>3):
 		#Anda para a esquerda
-		girarRobo(-90)
-		motorDireita.run_timed(time_sp=5*(dist_esq - dist_dir), speed_sp=50)
-		motorEsquerda.run_timed(time_sp=5*(dist_esq - dist_dir), speed_sp=50)
 		girarRobo(90)
+		motorDireita.run_timed(time_sp=(5*(dist_esq - dist_dir)), speed_sp=50)
+		motorEsquerda.run_timed(time_sp=(5*(dist_esq - dist_dir)), speed_sp=50)
+		girarRobo(-90)
 	elif(dist_esq < dist_dir) and (dist_dir - dist_esq)>3):
 		#Anda para a direita
-		girarRobo(90)
-		motorDireita.run_timed(time_sp=5*(dist_esq - dist_dir), speed_sp=50)
-		motorEsquerda.run_timed(time_sp=5*(dist_esq - dist_dir), speed_sp=50)
 		girarRobo(-90)
+		motorDireita.run_timed(time_sp=(5*(dist_esq - dist_dir)), speed_sp=50)
+		motorEsquerda.run_timed(time_sp=(5*(dist_esq - dist_dir)), speed_sp=50)
+		girarRobo(90)
 	motorDireita.run_timed(time_sp=2000, speed_sp=200)
 	motorEsquerda.run_timed(time_sp=2000, speed_sp=200)
 
