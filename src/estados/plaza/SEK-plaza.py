@@ -8,7 +8,7 @@ motorEsquerda = LargeMotor('outB')
 motorGarra = MediumMotor('outA')
 
 # definicao de sensores
-ultrassonico = UltrasonicSensor() 
+ultrassonico = UltrasonicSensor()
 assert ultrassonico.connected, "Sensor ultrassonico nao conectado"
 ultrassonico.mode = 'US-DIST-CM'
 
@@ -59,7 +59,7 @@ def plaza_entrega_boneco ():
 		motorDireita.run_forever(speed_sp=200)
 		motorEsquerda.run_forever(speed_sp=200)
 	print("ACHEI PRETO, VOU IR PRO CENTRO DA BOLA")
-	sleep(2) #Esse sleep serve para não ficar na borda do centro preto
+	sleep(1) #Esse sleep serve para não ficar na borda do centro preto
 	motorDireita.run_forever(speed_sp=0)
 	motorEsquerda.run_forever(speed_sp=0)
 	motorGarra.run_to_rel_pos(position_sp=290, speed_sp=100, stop_action="hold") #abre H ra
@@ -74,29 +74,31 @@ def plaza_entrega_boneco ():
 
 def plaza_modo1():
 	print("SAINDO DO PLAZA")
-	motorDireita.run_timed(time_sp=2000, speed_sp=200)
-	motorEsquerda.run_timed(time_sp=2000, speed_sp=200)
+	motorDireita.run_timed(time_sp=10000, speed_sp=200)
+	motorEsquerda.run_timed(time_sp=10000, speed_sp=200)
 	motorDireita.run_forever(speed_sp=0)
 	motorEsquerda.run_forever(speed_sp=0)
 	sleep(1)
 	#Verifica distancia das paredes:
 	dist_dir = UltrasonicSensor()
+	print("Distancia da direita: ", dist_dir)
+	sleep(1)
 	girarRobo(180)
 	dist_esq = UltrasonicSensor()
-	girarRobo(180)
-	while(dist_esq - dist_dir < 3) or (dist_dir - dist_esq < 3):
-		if(dist_esq > dist_dir):
-			#Anda para a esquerda
-			girarRobo(-90)
-			motorDireita.run_timed(time_sp=5*(dist_esq - dist_dir), speed_sp=50)
-			motorEsquerda.run_timed(time_sp=5*(dist_esq - dist_dir), speed_sp=50)
-			girarRobo(90)
-		else:
-			#Anda para a direita
-			girarRobo(90)
-			motorDireita.run_timed(time_sp=5*(dist_esq - dist_dir), speed_sp=50)
-			motorEsquerda.run_timed(time_sp=5*(dist_esq - dist_dir), speed_sp=50)
-			girarRobo(-90)
+	print("Distancia da esquerda: ", dist_esq)
+	sleep(1)
+	if(dist_esq > dist_dir):
+		#Anda para a esquerda
+		girarRobo(-90)
+		motorDireita.run_timed(time_sp=5*(dist_esq - dist_dir), speed_sp=50)
+		motorEsquerda.run_timed(time_sp=5*(dist_esq - dist_dir), speed_sp=50)
+		girarRobo(90)
+	else:
+		#Anda para a direita
+		girarRobo(90)
+		motorDireita.run_timed(time_sp=5*(dist_esq - dist_dir), speed_sp=50)
+		motorEsquerda.run_timed(time_sp=5*(dist_esq - dist_dir), speed_sp=50)
+		girarRobo(-90)
 	motorDireita.run_timed(time_sp=2000, speed_sp=200)
 	motorEsquerda.run_timed(time_sp=2000, speed_sp=200)
 
