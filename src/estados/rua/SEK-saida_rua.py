@@ -69,13 +69,15 @@ def girarRobo(anguloDesejado):
 # calibraGyro()
 
 def manobra1 (): #DEFINIR AS VARIAVEIS DOS SENSORES DE COR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	print("ENTREI NA MANOBRA!! ")
 	motorDireita.run_forever(speed_sp=0) #Para o robo para executar a manobra
 	motorEsquerda.run_forever(speed_sp=0) #STOP ACTION
 	if (colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorDir.value()] == 'brown'): #confere se o sensor direito está fora da pista
-		while((colors[SensorCorEsq.value()] == 'white'):
+		while(colors[SensorCorEsq.value()] == 'white'):
+			print("RODANDO PARA A DIREITA")
 			motorDireita.run_forever(speed_sp=0) #STOP ACTION
 			motorEsquerda.run_forever(speed_sp=90) #Gira roda esquerda
-		sleep(1)
+		sleep(0.5)
 		motorEsquerda.run_forever(speed_sp=0) #Para o robo na beirada da pista #STOP ACTION
 		sleep(1)
 		motorDireita.run_timed(time_sp=1100, speed_sp=-200) #Retorna ao meio da pista
@@ -83,9 +85,10 @@ def manobra1 (): #DEFINIR AS VARIAVEIS DOS SENSORES DE COR !!!!!!!!!!!!!!!!!!!!!
 		girarRobo(-90) #Gira para voltar ao percurso
 	elif (colors[SensorCorEsq.value()] == 'none'): #Tudo igual de maneira antagonica
 		while(colors[SensorCorDir.value()] == 'white'):
+			print("RODANDO PARA A ESQUEDA")
 			motorEsquerda.run_forever(speed_sp=0) #STOP ACTION
 			motorDireita.run_forever(speed_sp=90)
-		sleep(1)
+		sleep(0.5)
 		motorDireita.run_forever(speed_sp=0) #STOP ACTION
 		sleep(1)
 		motorDireita.run_timed(time_sp=1100, speed_sp=-200)
@@ -106,6 +109,8 @@ def manobra1 (): #DEFINIR AS VARIAVEIS DOS SENSORES DE COR !!!!!!!!!!!!!!!!!!!!!
 def main(): #TESTES
 	motorEsquerda.run_forever(speed_sp=200)
 	motorDireita.run_forever(speed_sp=200)
+	print("Sensor direito:", colors[SensorCorDir.value()])
+	print("Sensor esquerdo:", colors[SensorCorEsq.value()])
 	if (colors[SensorCorDir.value()] == 'black') and (colors[SensorCorEsq.value()] =='black'):
 		sleep(0.2)
 		if (colors[SensorCorDir.value()] == 'black') and (colors[SensorCorEsq.value()] =='black'):
@@ -115,6 +120,7 @@ def main(): #TESTES
 		elif (colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorDir.value()] == 'brown') or (colors[SensorCorEsq.value()] =='none'):
 			sleep(0.2)
 			if (colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorDir.value()] == 'brown') or (colors[SensorCorEsq.value()] =='none'):
+				print("BORA PRA MANOBRA")
 				manobra1()
 
 
