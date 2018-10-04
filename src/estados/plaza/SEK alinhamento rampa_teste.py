@@ -24,7 +24,7 @@ def rampaIda(): #subida do robo
 	motorDireita.run_forever(speed_sp=0)
 	motorEsquerda.run_forever(speed_sp=0)
 	sleep(0.5)
-	while ((SensorCorDir.value != 2) or (SensorCorEsq.value != 2)):
+	while ((SensorCorDir.value != 2) and (SensorCorEsq.value != 2)):
 		motorEsquerda.run_forever(speed_sp=200)
 		motorDireita.run_forever(speed_sp=200)
 	if (SensorCorDir.value != 2) and (SensorCorEsq.value == 2): # 2 = blue
@@ -52,7 +52,7 @@ def rampaVolta():
 	motorDireita.run_forever(speed_sp=0)
 	motorEsquerda.run_forever(speed_sp=0)
 	sleep(0.5)
-	while ((SensorCorDir.value != 2) or (SensorCorEsq.value != 2)):
+	while ((SensorCorDir.value != 2) and (SensorCorEsq.value != 2)):
 		motorEsquerda.run_forever(speed_sp=200)
 		motorDireita.run_forever(speed_sp=200)
 	if (SensorCorDir.value != 2) and (SensorCorEsq.value == 2): # 2 = blue
