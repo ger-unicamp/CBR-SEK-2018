@@ -107,7 +107,7 @@ def teste():
 			print ("estou no branco")
 			andarReto()
 		else:
-			print ("estou na ida, saí do branco")
+			print ("estou na ida, sai do branco")
 			rampaIda()
 
 			
