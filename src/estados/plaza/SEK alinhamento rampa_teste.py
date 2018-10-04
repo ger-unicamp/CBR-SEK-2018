@@ -18,7 +18,7 @@ assert gyro.connected, "Giroscopio nao conectado"
 SensorCorDir = ColorSensor('in1')
 assert SensorCorDir.connected, "Sensor de cor nao conectado"
 SensorCorDir.mode='COL-COLOR'
-#colors=('none','black','blue','green','yellow','red','white','brown')
+colors=('none','black','blue','green','yellow','red','white','brown')
 
 SensorCorEsq = ColorSensor('in4')
 assert SensorCorEsq.connected, "Sensor de cor nao conectado"
@@ -26,10 +26,15 @@ SensorCorEsq.mode='COL-COLOR'
 
 def rampaIda(): #subida do robo
 	print("estou na subida")
+	print (colors[SensorCorDir.value()])
+	print (colors[SensorCorEsq.value()])
 	motorDireita.run_forever(speed_sp=0)
 	motorEsquerda.run_forever(speed_sp=0)
 	sleep(0.5)
 	while ((SensorCorDir.value != 2) and (SensorCorEsq.value != 2)):
+		print ("estou na subida mas nao vi azul ainda")
+		print (colors[SensorCorDir.value()])
+		print (colors[SensorCorEsq.value()])
 		motorEsquerda.run_forever(speed_sp=200)
 		motorDireita.run_forever(speed_sp=200)
 	if (SensorCorDir.value != 2) and (SensorCorEsq.value == 2): # 2 = blue
@@ -51,6 +56,8 @@ def rampaIda(): #subida do robo
 	motorEsquerda.run_forever(speed_sp=200)
 	motorDireita.run_forever(speed_sp=200)
 	print ("sai da rampa")
+	print (colors[SensorCorDir.value()])
+	print (colors[SensorCorEsq.value()])
 
 def rampaVolta():
 	print("estou na descida")
