@@ -77,7 +77,7 @@ def andarReto():
 
 def teste():
 	while (True):
-		if (SensorCorDir.value != 6) and (SensorCorEsq.value == 6):
+		if (SensorCorDir.value == 6) and (SensorCorEsq.value == 6):
 			andarReto()
 		else:
 			rampaIda()
