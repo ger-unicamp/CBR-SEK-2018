@@ -33,13 +33,13 @@ def rampaIda(): #subida do robo
 	motorDireita.run_forever(speed_sp=0)
 	motorEsquerda.run_forever(speed_sp=0)
 	sleep(0.5)
-	while ((SensorCorDir.value != 2) and (SensorCorEsq.value != 2)):
+	while ((SensorCorDir.value != 2) and (SensorCorEsq.value != 2)) or ((SensorCorDir.value != 0) and (SensorCorEsq.value != 0)) or ((SensorCorDir.value != 7) and (SensorCorEsq.value != 7)):
 		print ("estou na subida mas nao vi azul ainda")
 		print (colors[SensorCorDir.value()])
 		print (colors[SensorCorEsq.value()])
 		motorEsquerda.run_forever(speed_sp=velocidade)
 		motorDireita.run_forever(speed_sp=velocidade)
-	if (SensorCorDir.value != 2) and (SensorCorEsq.value == 2): # 2 = blue
+	if (SensorCorDir.value != 2) and (SensorCorEsq.value == 2) or (SensorCorDir.value != 0) and (SensorCorEsq.value == 0) or (SensorCorDir.value != 7) and (SensorCorEsq.value == 7): # 2 = blue
 		print("desalinhado direita baixa")
 		while (SensorCorDir.value == 5) and (SensorCorDir.value != 2): # 5 = green
 			motorDireita.run_forever(speed_sp=50)
@@ -102,6 +102,7 @@ def andarReto():
 
 def teste():
 	while (True):
+		sleep (0.5)
 		if (SensorCorDir.value == 6) and (SensorCorEsq.value == 6):
 			print ("estou no branco")
 			andarReto()
