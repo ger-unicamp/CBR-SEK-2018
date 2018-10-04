@@ -9,13 +9,13 @@ motorDireita = LargeMotor('outC')
 motorEsquerda = LargeMotor('outB')
 
 #definicao dos sensores de cor
-sensorCorDir = ColorSensor('in1')
-assert sensorCorDir.connected, "Sensor de cor nao conectado"
-sensorCorDir.mode='COL-COLOR'
+SensorCorDir = ColorSensor('in1')
+assert SensorCorDir.connected, "Sensor de cor nao conectado"
+SensorCorDir.mode='COL-COLOR'
 
-sensorCorEsq = ColorSensor('in4')
-assert sensorCorEsq.connected, "Sensor de cor nao conectado"
-sensorCorEsq.mode='COL-COLOR'
+SensorCorEsq = ColorSensor('in4')
+assert SensorCorEsq.connected, "Sensor de cor nao conectado"
+SensorCorEsq.mode='COL-COLOR'
 
 
 
