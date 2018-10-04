@@ -81,3 +81,6 @@ def teste():
 			andarReto()
 		else:
 			rampaIda()
+
+			
+teste():
