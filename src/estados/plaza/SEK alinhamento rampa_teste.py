@@ -24,6 +24,8 @@ SensorCorEsq = ColorSensor('in4')
 assert SensorCorEsq.connected, "Sensor de cor nao conectado"
 SensorCorEsq.mode='COL-COLOR'
 
+velocidade = 90
+
 def rampaIda(): #subida do robo
 	print("estou na subida")
 	print (colors[SensorCorDir.value()])
@@ -35,8 +37,8 @@ def rampaIda(): #subida do robo
 		print ("estou na subida mas nao vi azul ainda")
 		print (colors[SensorCorDir.value()])
 		print (colors[SensorCorEsq.value()])
-		motorEsquerda.run_forever(speed_sp=200)
-		motorDireita.run_forever(speed_sp=200)
+		motorEsquerda.run_forever(speed_sp=velocidade)
+		motorDireita.run_forever(speed_sp=velocidade)
 	if (SensorCorDir.value != 2) and (SensorCorEsq.value == 2): # 2 = blue
 		print("desalinhado direita baixa")
 		while (SensorCorDir.value == 5) and (SensorCorDir.value != 2): # 5 = green
@@ -53,8 +55,8 @@ def rampaIda(): #subida do robo
 		motorDireita.run_forever(speed_sp=0)
 		motorEsquerda.run_forever(speed_sp=0)
 		sleep(0.5)
-	motorEsquerda.run_forever(speed_sp=200)
-	motorDireita.run_forever(speed_sp=200)
+	motorEsquerda.run_forever(speed_sp=velocidade)
+	motorDireita.run_forever(speed_sp=velocidade)
 	print ("sai da rampa")
 	print (colors[SensorCorDir.value()])
 	print (colors[SensorCorEsq.value()])
@@ -65,8 +67,8 @@ def rampaVolta():
 	motorEsquerda.run_forever(speed_sp=0)
 	sleep(0.5)
 	while ((SensorCorDir.value != 2) and (SensorCorEsq.value != 2)):
-		motorEsquerda.run_forever(speed_sp=200)
-		motorDireita.run_forever(speed_sp=200)
+		motorEsquerda.run_forever(speed_sp=velocidade)
+		motorDireita.run_forever(speed_sp=velocidade)
 	if (SensorCorDir.value != 2) and (SensorCorEsq.value == 2): # 2 = blue
 		print("desalinhado direita alta")
 		motorDireita.run_forever(speed_sp=0)
@@ -87,14 +89,14 @@ def rampaVolta():
 		motorDireita.run_forever(speed_sp=0)
 		motorEsquerda.run_forever(speed_sp=0)
 		sleep(0.5)
-	motorEsquerda.run_forever(speed_sp=200)
-	motorDireita.run_forever(speed_sp=200)
+	motorEsquerda.run_forever(speed_sp=velocidade)
+	motorDireita.run_forever(speed_sp=velocidade)
 
 
 def andarReto():
 	print ("andar reto")
-	motorEsquerda.run_forever(speed_sp=200)
-	motorDireita.run_forever(speed_sp=200)
+	motorEsquerda.run_forever(speed_sp=velocidade)
+	motorDireita.run_forever(speed_sp=velocidade)
 	
 
 
