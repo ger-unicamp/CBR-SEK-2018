@@ -85,6 +85,7 @@ def rampaVolta():
 
 
 def andarReto():
+	print ("andar reto")
 	motorEsquerda.run_forever(speed_sp=200)
 	motorDireita.run_forever(speed_sp=200)
 	
@@ -93,8 +94,10 @@ def andarReto():
 def teste():
 	while (True):
 		if (SensorCorDir.value == 6) and (SensorCorEsq.value == 6):
+			print ("estou no branco")
 			andarReto()
 		else:
+			print ("estou na ida, saí do branco")
 			rampaIda()
 
 			
