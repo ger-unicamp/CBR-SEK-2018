@@ -50,7 +50,7 @@ def rampaIda(): #subida do robo
 		sleep(0.5)
 	motorEsquerda.run_forever(speed_sp=200)
 	motorDireita.run_forever(speed_sp=200)
-
+	print ("sai da rampa")
 
 def rampaVolta():
 	print("estou na descida")
