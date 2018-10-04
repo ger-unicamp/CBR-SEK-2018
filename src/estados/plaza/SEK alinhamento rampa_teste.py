@@ -18,7 +18,7 @@ assert gyro.connected, "Giroscopio nao conectado"
 SensorCorDir = ColorSensor('in1')
 assert SensorCorDir.connected, "Sensor de cor nao conectado"
 SensorCorDir.mode='COL-COLOR'
-colors=('none','black','blue','green','yellow','red','white','brown')
+#colors=('none','black','blue','green','yellow','red','white','brown')
 
 SensorCorEsq = ColorSensor('in4')
 assert SensorCorEsq.connected, "Sensor de cor nao conectado"
