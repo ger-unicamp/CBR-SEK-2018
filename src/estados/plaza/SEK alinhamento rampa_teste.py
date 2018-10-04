@@ -93,4 +93,4 @@ def teste():
 			rampaIda()
 
 			
-teste():
+teste()
