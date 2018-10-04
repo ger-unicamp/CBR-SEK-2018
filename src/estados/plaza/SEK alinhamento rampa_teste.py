@@ -24,17 +24,17 @@ def rampaIda(): #subida do robo
 	motorDireita.run_forever(speed_sp=0)
 	motorEsquerda.run_forever(speed_sp=0)
 	sleep(0.5)
-	if (SensorCorDir.value != 2) and (SensorCorEsq.value == 2):
+	if (SensorCorDir.value != 2) and (SensorCorEsq.value == 2): # 2 = blue
 		print("desalinhado direita baixa")
-		while (SensorCorDir.value == 5) and (SensorCorDir.value != 2):
+		while (SensorCorDir.value == 5) and (SensorCorDir.value != 2): # 5 = green
 			motorDireita.run_forever(speed_sp=50)
 			motorEsquerda.run_forever(speed_sp=0)
 		motorDireita.run_forever(speed_sp=0)
 		motorEsquerda.run_forever(speed_sp=0)
 		sleep(0.5)
-	if (SensorCorEsq.value != 2) and (SensorCorDir.value == 2):
+	if (SensorCorEsq.value != 2) and (SensorCorDir.value == 2): # 2 = blue
 		print("desalinhado esquerda baixa")
-		while (SensorCorEsq.value == 5) and (SensorCorEsq.value != 2):
+		while (SensorCorEsq.value == 5) and (SensorCorEsq.value != 2):  # 5 = green
 			motorEsquerda.run_forever(speed_sp=50)
 			motorDireita.run_forever(speed_sp=0)
 		motorDireita.run_forever(speed_sp=0)
@@ -49,17 +49,17 @@ def rampaVolta():
 	motorDireita.run_forever(speed_sp=0)
 	motorEsquerda.run_forever(speed_sp=0)
 	sleep(0.5)
-	if (SensorCorDir.value != 2) and (SensorCorEsq.value == 2):
+	if (SensorCorDir.value != 2) and (SensorCorEsq.value == 2): # 2 = blue
 		print("desalinhado direita alta")
-		while (SensorCorDir.value == 3) and (SensorCorDir.value != 2):
+		while (SensorCorDir.value == 3) and (SensorCorDir.value != 2): # 3 = red
 			motorDireita.run_forever(speed_sp=50)
 			motorEsquerda.run_forever(speed_sp=0)
 		motorDireita.run_forever(speed_sp=0)
 		motorEsquerda.run_forever(speed_sp=0)
 		sleep(0.5)
-	if (SensorCorEsq.value != 2) and (SensorCorDir.value == 2):
+	if (SensorCorEsq.value != 2) and (SensorCorDir.value == 2): # 2 = blue
 		print("desalinhado esquerda alta")
-		while (SensorCorEsq.value == 3) and (SensorCorEsq.value != 2):
+		while (SensorCorEsq.value == 3) and (SensorCorEsq.value != 2): # 3 = red
 			motorEsquerda.run_forever(speed_sp=50)
 			motorDireita.run_forever(speed_sp=0)
 		motorDireita.run_forever(speed_sp=0)
