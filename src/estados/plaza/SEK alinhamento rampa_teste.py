@@ -24,6 +24,9 @@ def rampaIda(): #subida do robo
 	motorDireita.run_forever(speed_sp=0)
 	motorEsquerda.run_forever(speed_sp=0)
 	sleep(0.5)
+	while ((SensorCorDir.value != 2) or (SensorCorEsq.value != 2)):
+		motorEsquerda.run_forever(speed_sp=200)
+		motorDireita.run_forever(speed_sp=200)
 	if (SensorCorDir.value != 2) and (SensorCorEsq.value == 2): # 2 = blue
 		print("desalinhado direita baixa")
 		while (SensorCorDir.value == 5) and (SensorCorDir.value != 2): # 5 = green
@@ -49,8 +52,13 @@ def rampaVolta():
 	motorDireita.run_forever(speed_sp=0)
 	motorEsquerda.run_forever(speed_sp=0)
 	sleep(0.5)
+	while ((SensorCorDir.value != 2) or (SensorCorEsq.value != 2)):
+		motorEsquerda.run_forever(speed_sp=200)
+		motorDireita.run_forever(speed_sp=200)
 	if (SensorCorDir.value != 2) and (SensorCorEsq.value == 2): # 2 = blue
 		print("desalinhado direita alta")
+		motorDireita.run_forever(speed_sp=0)
+		motorEsquerda.run_forever(speed_sp=0)
 		while (SensorCorDir.value == 3) and (SensorCorDir.value != 2): # 3 = red
 			motorDireita.run_forever(speed_sp=50)
 			motorEsquerda.run_forever(speed_sp=0)
@@ -59,6 +67,8 @@ def rampaVolta():
 		sleep(0.5)
 	if (SensorCorEsq.value != 2) and (SensorCorDir.value == 2): # 2 = blue
 		print("desalinhado esquerda alta")
+		motorDireita.run_forever(speed_sp=0)
+		motorEsquerda.run_forever(speed_sp=0)
 		while (SensorCorEsq.value == 3) and (SensorCorEsq.value != 2): # 3 = red
 			motorEsquerda.run_forever(speed_sp=50)
 			motorDireita.run_forever(speed_sp=0)
