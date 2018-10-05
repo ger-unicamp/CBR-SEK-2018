@@ -41,7 +41,7 @@ while (True):
 			motorDireita.stop(stop_action="hold")
 			motorEsquerda.stop(stop_action="hold")
 			sleep(0.5)
-			if (colors[SensorCorDir.value()] == 'green' or colors[SensorCorEsq.value()] == 'green':
+			if (colors[SensorCorDir.value()] == 'green' or colors[SensorCorEsq.value()] == 'green'):
 			    	motorDireita.run_forever(speed_sp=90)
 				motorEsquerda.run_forever(speed_sp=90)	
 				print ("estou no verde, rampa")
