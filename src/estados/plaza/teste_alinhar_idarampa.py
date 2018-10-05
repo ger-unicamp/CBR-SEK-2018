@@ -32,8 +32,14 @@ while (True):
 		if (colors[SensorCorDir.value()] == colors[SensorCorEsq.value()]):
 			motorDireita.run_forever(speed_sp=90)
 			motorEsquerda.run_forever(speed_sp=90)	
-		#else:
-		#	if (colors[SensorCorDir.])
-		#motorDireita.stop(stop_action="hold")
-		#motorEsquerda.stop(stop_action="hold")
+		else:
+			motorDireita.stop(stop_action="hold")
+			motorEsquerda.stop(stop_action="hold")
+			sleep(0.5)
+			while (colors[SensorCorDir.value() == 'green'] and colors[SensorCorEsq.value()] == 'white'):
+				motorDireita.run_forever(speed_sp=0)
+				motorEsquerda.run_forever(speed_sp=90)
+			while (colors[SensorCorDir.value() == 'white'] and colors[SensorCorEsq.value()] == 'green'):
+				motorDireita.run_forever(speed_sp=90)
+				motorEsquerda.run_forever(speed_sp=0)
 
