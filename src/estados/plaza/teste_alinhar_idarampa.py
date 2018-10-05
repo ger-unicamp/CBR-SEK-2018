@@ -29,5 +29,11 @@ while (True):
 		motorDireita.run_forever(speed_sp=90)
 		motorEsquerda.run_forever(speed_sp=90)
 	else:
-		motorDireita.stop(stop_action="hold")
-		motorEsquerda.stop(stop_action="hold")	
+		if (colors[SensorCorDir.value()] == colors[SensorCorEsq.value()]):
+			motorDireita.run_forever(speed_sp=90)
+			motorEsquerda.run_forever(speed_sp=90)	
+		#else:
+		#	if (colors[SensorCorDir.])
+		#motorDireita.stop(stop_action="hold")
+		#motorEsquerda.stop(stop_action="hold")
+
