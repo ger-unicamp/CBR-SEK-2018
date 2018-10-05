@@ -41,18 +41,22 @@ while (True):
 			motorDireita.stop(stop_action="hold")
 			motorEsquerda.stop(stop_action="hold")
 			sleep(0.5)
-			if (colors[SensorCorDir.value() == 'green'] and colors[SensorCorEsq.value()] == 'white'):
+			if (colors[SensorCorDir.value()] == 'green' or colors[SensorCorEsq.value()] == 'green':
+			    	motorDireita.run_forever(speed_sp=90)
+				motorEsquerda.run_forever(speed_sp=90)	
+				print ("estou no verde, rampa")
+			    	print (colors[SensorCorDir.value()])
+				print (colors[SensorCorEsq.value()])
+			elif (colors[SensorCorDir.value() == 'blue'] and colors[SensorCorEsq.value()] == 'blue'): # esq  == green
 				print ("roda esquerda desalinhada")
 				print (colors[SensorCorDir.value()])
 				print (colors[SensorCorEsq.value()])
 				motorDireita.run_forever(speed_sp=0)
 				motorEsquerda.run_forever(speed_sp=90)
-				sleep (0.5)
-			elif (colors[SensorCorDir.value() == 'white'] and colors[SensorCorEsq.value()] == 'blue'):
+			elif (colors[SensorCorDir.value() == 'green'] and colors[SensorCorEsq.value()] == 'blue'):
 				print ("roda direita desalinhada")
 				print (colors[SensorCorDir.value()])
 				print (colors[SensorCorEsq.value()])
 				motorDireita.run_forever(speed_sp=90)
 				motorEsquerda.run_forever(speed_sp=0)
-				sleep (0.5)
 		
