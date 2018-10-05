@@ -16,24 +16,29 @@ labirinto, por isso o nome. Analogamente, o where_to_go, usado quando ainda nao 
 '''
 
 class Interseccao:
-    def __init__(self):# construtor
+    def __init__(self):
         self.inter = {'2': -1, '3': -1, '5': -1}#as chaves sao as cores, comeca com -1 pq ainda n sabemosa  direcao
+        self.verify_dir = -1#variavel para verificacao da direcao a ser 'pushed'
     def push(self, cor, direcao):
-        self.inter[f'{cor}'] = direcao
+        if(direcao==0):
+            self.inter['{}'.format(cor)]=self.verify_dir
+        else:
+            self.inter['{}'.format(cor)] = direcao
+        self.verify_dir =-1
     def acessa(self, cor):
-        return self.inter[f'{cor}']
+        return self.inter['{}'.format(cor)]
 	def where_to_go(self, cor):
-		if self.iter[f'{cor}'] != -1:
-			return self.iter[f'{cor}']
+		if self.iter['{}'.format(cor)] != -1:
+			return self.iter['{}'.format(cor)]
 		else:
-			#a ideia do self.inter.values eh listar as direcoes que estao presentes
-			#no dicinioario. entao, caso n tenha uma direcao ainda, em ordem crescente,
-			#a testamos na main
 			if 0 not in self.inter.values():
-				return 0
-			elif 1 not in self.inter.values():
-				return 1
-			elif 2 not in self.inter.values():
-				return 2
-    def __str__(self):#metodo para dar print
-        return f'{self.inter}'
+                self.verify_dir+=1
+                return 0
+			elif 1 not in self.inter.values() and self.verify_dir==-1:
+                self.verify_dir+=1
+                return 1
+            else:
+                self.verify_dir = 2
+                return 0
+    def __str__(self):
+        return '{}'.format(self.inter)
