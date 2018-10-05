@@ -24,9 +24,10 @@ SensorCorEsq = ColorSensor('in4')
 assert SensorCorEsq.connected, "Sensor de cor nao conectado"
 SensorCorEsq.mode='COL-COLOR'
 
-if (colors[SensorCorDir.value] == 'white' and colors[SensorCorEsq.value] == 'white'):
-	motorDireita.run_forever(speed_sp=90)
-	motorEsquerda.run_forever(speed_sp=90)
-else:
-	motorDireita.stop(stop_action="hold")
-	motorEsquerda.stop(stop_action="hold")	
+while (True):	
+	if (colors[SensorCorDir.value] == 'white' and colors[SensorCorEsq.value] == 'white'):
+		motorDireita.run_forever(speed_sp=90)
+		motorEsquerda.run_forever(speed_sp=90)
+	else:
+		motorDireita.stop(stop_action="hold")
+		motorEsquerda.stop(stop_action="hold")	
