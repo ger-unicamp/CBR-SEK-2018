@@ -31,18 +31,22 @@ while (True):
 		motorEsquerda.run_forever(speed_sp=90)
 	else:
 		if (colors[SensorCorDir.value()] == colors[SensorCorEsq.value()]):
+			print ("cor igual")
 			motorDireita.run_forever(speed_sp=90)
 			motorEsquerda.run_forever(speed_sp=90)	
 		else:
+			print ("cor diferente")
 			motorDireita.stop(stop_action="hold")
 			motorEsquerda.stop(stop_action="hold")
 			sleep(0.5)
-			while (colors[SensorCorDir.value() == 'green'] and colors[SensorCorEsq.value()] == 'white'):
+			if (colors[SensorCorDir.value() == 'green'] and colors[SensorCorEsq.value()] == 'white'):
+				print ("roda esquerda desalinhada")
 				motorDireita.run_forever(speed_sp=0)
 				motorEsquerda.run_forever(speed_sp=90)
-			while (colors[SensorCorDir.value() == 'white'] and colors[SensorCorEsq.value()] == 'green'):
+				sleep (0.5)
+			elif (colors[SensorCorDir.value() == 'white'] and colors[SensorCorEsq.value()] == 'green'):
+				print ("roda direita desalinhada")
 				motorDireita.run_forever(speed_sp=90)
 				motorEsquerda.run_forever(speed_sp=0)
-			motorDireita.stop(stop_action="hold")
-			motorEsquerda.stop(stop_action="hold")
+				sleep (0.5)
 		
