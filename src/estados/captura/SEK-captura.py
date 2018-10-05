@@ -59,7 +59,8 @@ def agarrarBoneco():
     motorDireita.run_timed(time_sp=1400, speed_sp=200)
     motorEsquerda.run_timed(time_sp=1400, speed_sp=200)
     sleep(3)
-    motorGarra.run_to_rel_pos(position_sp=-100, speed_sp=100, stop_action="hold")
+    motorGarra.run_to_rel_pos(position_sp=-290, speed_sp=100, stop_action="hold")
+    #de -100 a -330 a garra n subiu
     sleep(5)
     #como subir a garra?
     motorDireita.run_timed(time_sp=1400, speed_sp=-200)
