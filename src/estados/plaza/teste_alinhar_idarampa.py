@@ -25,7 +25,7 @@ assert SensorCorEsq.connected, "Sensor de cor nao conectado"
 SensorCorEsq.mode='COL-COLOR'
 
 while (True):	
-	if (colors[SensorCorDir.value] == 'white' and colors[SensorCorEsq.value] == 'white'):
+	if (colors[SensorCorDir.value()] == 'white' and colors[SensorCorEsq.value()] == 'white'):
 		motorDireita.run_forever(speed_sp=90)
 		motorEsquerda.run_forever(speed_sp=90)
 	else:
