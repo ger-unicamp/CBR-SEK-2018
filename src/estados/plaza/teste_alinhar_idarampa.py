@@ -26,6 +26,7 @@ SensorCorEsq.mode='COL-COLOR'
 
 while (True):	
 	if (colors[SensorCorDir.value()] == 'white' and colors[SensorCorEsq.value()] == 'white'):
+		print("estou no branco")
 		motorDireita.run_forever(speed_sp=90)
 		motorEsquerda.run_forever(speed_sp=90)
 	else:
@@ -42,4 +43,6 @@ while (True):
 			while (colors[SensorCorDir.value() == 'white'] and colors[SensorCorEsq.value()] == 'green'):
 				motorDireita.run_forever(speed_sp=90)
 				motorEsquerda.run_forever(speed_sp=0)
-
+			motorDireita.stop(stop_action="hold")
+			motorEsquerda.stop(stop_action="hold")
+		
