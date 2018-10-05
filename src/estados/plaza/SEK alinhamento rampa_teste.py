@@ -108,7 +108,7 @@ def andarReto():
 
 def teste():
 	while (True):
-		sleep (0.5)
+		#sleep (0.5)
 		if (SensorCorDir.value == 6) and (SensorCorEsq.value == 6):
 			print ("estou no branco")
 			andarReto()
