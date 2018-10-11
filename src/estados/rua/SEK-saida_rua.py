@@ -36,20 +36,20 @@ def girarRobo(anguloDesejado):
 
 	if(anguloDesejado > 0):
 		while(anguloSensor < anguloDesejado - 4): # 4 eh para compensar o lag de leitura do gyro
-			motorDireita.run_forever(speed_sp=-50)
-			motorEsquerda.run_forever(speed_sp=50)
+			motorDireita.run_forever(speed_sp=-200)
+			motorEsquerda.run_forever(speed_sp=200)
 			anguloSensor = gyro.value()
 	else:
 		while(anguloSensor > anguloDesejado + 4): # 4 eh para compensar o lag de leitura do gyro
-			motorDireita.run_forever(speed_sp=50)
-			motorEsquerda.run_forever(speed_sp=-50)
+			motorDireita.run_forever(speed_sp=200)
+			motorEsquerda.run_forever(speed_sp=-200)
 			anguloSensor = gyro.value()
 
 	motorDireita.stop(stop_action="hold")
 	motorEsquerda.stop(stop_action="hold")
 	calibraGyro()
 
-def manobra1(): #DEFINIR AS VARIAVEIS DOS SENSORES DE COR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+def manobra1():
 	print("ENTREI NA MANOBRA!! ")
 	motorDireita.run_forever(speed_sp=0) #Para o robo para executar a manobra
 	motorEsquerda.run_forever(speed_sp=0) #STOP ACTION
@@ -57,8 +57,8 @@ def manobra1(): #DEFINIR AS VARIAVEIS DOS SENSORES DE COR !!!!!!!!!!!!!!!!!!!!!!
 		while(colors[SensorCorEsq.value()] == 'white'):
 			print("RODANDO PARA A DIREITA")
 			motorDireita.run_forever(speed_sp=0) #STOP ACTION
-			motorEsquerda.run_forever(speed_sp=90) #Gira roda esquerda
-		sleep(0.3)
+			motorEsquerda.run_forever(speed_sp=180) #Gira roda esquerda
+		sleep(0.1)
 		motorEsquerda.run_forever(speed_sp=0) #Para o robo na beirada da pista #STOP ACTION
 		sleep(1)
 		motorDireita.run_timed(time_sp=1100, speed_sp=-200) #Retorna ao meio da pista
@@ -68,8 +68,8 @@ def manobra1(): #DEFINIR AS VARIAVEIS DOS SENSORES DE COR !!!!!!!!!!!!!!!!!!!!!!
 		while(colors[SensorCorDir.value()] == 'white'):
 			print("RODANDO PARA A ESQUEDA")
 			motorEsquerda.run_forever(speed_sp=0) #STOP ACTION
-			motorDireita.run_forever(speed_sp=90)
-		sleep(0.3)
+			motorDireita.run_forever(speed_sp=180)
+		sleep(0.1)
 		motorDireita.run_forever(speed_sp=0) #STOP ACTION
 		sleep(1)
 		motorDireita.run_timed(time_sp=1100, speed_sp=-200)
