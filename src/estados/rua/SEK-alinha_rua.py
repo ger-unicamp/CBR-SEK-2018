@@ -76,7 +76,7 @@ def manobra1():
 		motorEsquerda.run_timed(time_sp=1100, speed_sp=-200)
 		girarRobo(90)
 
-def alinha(): #Começar função alinha com StopMontion
+def alinha(): #Começar função alinha com StopMotion
 	motorEsquerda.run_forever(speed_sp=0)
 	motorDireita.run_forever(speed_sp=0)
 	sleep(0.4)
