@@ -111,16 +111,16 @@ def main(): #TESTES
 	motorDireita.run_forever(speed_sp=200)
 	print("Sensor direito:", colors[SensorCorDir.value()])
 	print("Sensor esquerdo:", colors[SensorCorEsq.value()])
-	if (colors[SensorCorDir.value()] == 'black') and (colors[SensorCorEsq.value()] =='black'): #verificação Final da RUA
+	if (colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorDir.value()] == 'brown') or (colors[SensorCorEsq.value()] =='none') or (colors[SensorCorEsq.value()] == 'black'): #verificação Final da RUA
 		sleep(0.2)
 		if (colors[SensorCorDir.value()] == 'black') and (colors[SensorCorEsq.value()] =='black'):
 			print("PAROU")
 			motorEsquerda.run_forever(speed_sp=0) #stop action
 			motorDireita.run_forever(speed_sp=0) #STOP ACTION
 			exit()
-	elif (colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorDir.value()] == 'brown') or (colors[SensorCorEsq.value()] =='none'):
-		sleep(0.2)
-		if (colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorDir.value()] == 'brown') or (colors[SensorCorEsq.value()] =='none'):
+		elif (colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorDir.value()] == 'brown') or (colors[SensorCorEsq.value()] =='none'):
+			#sleep(0.2)
+			#if (colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorDir.value()] == 'brown') or (colors[SensorCorEsq.value()] =='none'):
 			print("BORA PRA MANOBRA")
 			manobra1()
 
