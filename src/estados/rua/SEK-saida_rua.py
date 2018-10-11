@@ -77,7 +77,7 @@ def manobra1(): #DEFINIR AS VARIAVEIS DOS SENSORES DE COR !!!!!!!!!!!!!!!!!!!!!!
 			print("RODANDO PARA A DIREITA")
 			motorDireita.run_forever(speed_sp=0) #STOP ACTION
 			motorEsquerda.run_forever(speed_sp=90) #Gira roda esquerda
-		sleep(0.4)
+		sleep(0.3)
 		motorEsquerda.run_forever(speed_sp=0) #Para o robo na beirada da pista #STOP ACTION
 		sleep(1)
 		motorDireita.run_timed(time_sp=1100, speed_sp=-200) #Retorna ao meio da pista
@@ -88,7 +88,7 @@ def manobra1(): #DEFINIR AS VARIAVEIS DOS SENSORES DE COR !!!!!!!!!!!!!!!!!!!!!!
 			print("RODANDO PARA A ESQUEDA")
 			motorEsquerda.run_forever(speed_sp=0) #STOP ACTION
 			motorDireita.run_forever(speed_sp=90)
-		sleep(0.4)
+		sleep(0.3)
 		motorDireita.run_forever(speed_sp=0) #STOP ACTION
 		sleep(1)
 		motorDireita.run_timed(time_sp=1100, speed_sp=-200)
@@ -118,7 +118,7 @@ def main(): #TESTES
 			motorEsquerda.run_forever(speed_sp=0) #stop action
 			motorDireita.run_forever(speed_sp=0) #STOP ACTION
 			exit()
-		elif (colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorDir.value()] == 'brown') or (colors[SensorCorEsq.value()] =='none'):
+		elif (colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorDir.value()] == 'brown') or (colors[SensorCorEsq.value()] =='none') or (colors[SensorCorEsq.value()] == 'black'):
 			#sleep(0.2)
 			#if (colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorDir.value()] == 'brown') or (colors[SensorCorEsq.value()] =='none'):
 			print("BORA PRA MANOBRA")
