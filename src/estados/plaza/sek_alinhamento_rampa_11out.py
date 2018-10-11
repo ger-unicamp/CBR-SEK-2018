@@ -112,4 +112,6 @@ def rampaVolta():
         motorDireita.run_forever(speed_sp=90)
 	motorEsquerda.run_forever(speed_sp=90)    
 
-
+while (True):
+    rampaIda()
+    
