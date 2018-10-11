@@ -31,21 +31,17 @@ def calibraGyro():
 	sleep(1)
 
 def girarRobo(anguloDesejado):
-	sleep(5)
 	calibraGyro()
 	anguloSensor = gyro.value()
-	print ("Angulo do giro: ", anguloSensor)
-
 	if(anguloDesejado > 0):
 		while(anguloSensor < anguloDesejado - 4): # 4 eh para compensar o lag de leitura do gyro
-			print ("Angulo do giro: ", anguloSensor)
-			motorDireita.run_forever(speed_sp=-50)
-			motorEsquerda.run_forever(speed_sp=50)
+			motorDireita.run_forever(speed_sp=-200)
+			motorEsquerda.run_forever(speed_sp=200)
 			anguloSensor = gyro.value()
 	else:
 		while(anguloSensor > anguloDesejado + 4): # 4 eh para compensar o lag de leitura do gyro
-			motorDireita.run_forever(speed_sp=50)
-			motorEsquerda.run_forever(speed_sp=-50)
+			motorDireita.run_forever(speed_sp=200)
+			motorEsquerda.run_forever(speed_sp=-200)
 			anguloSensor = gyro.value()
 
 	motorDireita.stop(stop_action="hold")
@@ -69,39 +65,48 @@ def plaza_entrega_boneco ():
 	motorEsquerda.run_timed(time_sp=1400, speed_sp=-200)
 	sleep(3)
 	motorGarra.run_to_rel_pos(position_sp=-300, speed_sp=100, stop_action="hold") #fecha H ra
-	sleep(1)
+	sleep(0.4)
 	plaza_modo1()
 
 def plaza_modo1():
 	print("SAINDO DO PLAZA")
-	# motorDireita.run_timed(time_sp=10000, speed_sp=200)
-	# motorEsquerda.run_timed(time_sp=10000, speed_sp=200)
 	motorDireita.run_forever(speed_sp=-200)
 	motorEsquerda.run_forever(speed_sp=-200)
 	sleep(3)
 	motorDireita.run_forever(speed_sp=0)
 	motorEsquerda.run_forever(speed_sp=0)
 	#Verifica distancia das paredes:
-	#dist_dir = UltrasonicSensor()
 	dist_dir = ultrassonico.value()/10
 	print("Distancia da direita: ", dist_dir)
-	sleep(1)
-	girarRobo(180)
+	sleep(0.4)
+	girarRobo(90)
+	girarRobo(90)
 	dist_esq = ultrassonico.value()/10
 	print("Distancia da esquerda: ", dist_esq)
-	sleep(1)
-	if(dist_esq > dist_dir) and ((dist_esq - dist_dir)>3):
-		#Anda para a esquerda
+	sleep(0.4)
+	while(abs(dist_esq-dist_dir)>3):
+		if(dist_esq > dist_dir):
+			#Anda para a esquerda
+			girarRobo(90)
+			motorDireita.run_forever(speed_sp=200)
+			motorEsquerda.run_forever(speed_sp=200)
+			sleep(0.5)
+			motorDireita.run_forever(speed_sp=0)
+			motorEsquerda.run_forever(speed_sp=0)
+			girarRobo(90)
+		elif(dist_esq < dist_dir):
+			#Anda para a direita
+			girarRobo(-90)
+			motorDireita.run_forever(speed_sp=200)
+			motorEsquerda.run_forever(speed_sp=200)
+			sleep(0.5)
+			motorDireita.run_forever(speed_sp=0)
+			motorEsquerda.run_forever(speed_sp=0)
+			girarRobo(-90)
+		dist_dir = ultrassonico.value()/10
 		girarRobo(90)
-		motorDireita.run_timed(time_sp=(5*(dist_esq - dist_dir)), speed_sp=50)
-		motorEsquerda.run_timed(time_sp=(5*(dist_esq - dist_dir)), speed_sp=50)
-		girarRobo(-90)
-	elif(dist_esq < dist_dir) and ((dist_dir - dist_esq)>3):
-		#Anda para a direita
-		girarRobo(-90)
-		motorDireita.run_timed(time_sp=(5*(dist_esq - dist_dir)), speed_sp=50)
-		motorEsquerda.run_timed(time_sp=(5*(dist_esq - dist_dir)), speed_sp=50)
 		girarRobo(90)
+		dist_esq = ultrassonico.value()/10
 	motorDireita.run_timed(time_sp=2000, speed_sp=200)
 	motorEsquerda.run_timed(time_sp=2000, speed_sp=200)
 
@@ -110,7 +115,7 @@ def plaza_modo1():
 def main():
 	motorDireita.run_forever(speed_sp=200)
 	motorEsquerda.run_forever(speed_sp=200)
-	if (colors[SensorCorDir.value()] == "red") or (colors[SensorCorEsq.value()] == "red"):
+	if (colors[SensorCorDir.value()] == "red") or (colors[SensorCorEsq.value()] == "red"): #Condição para entrar no plaza (que pode ser outra condição. Coloquei essa por não saber exatamente qual seria)
 		plaza_entrega_boneco()
 
 while(True):
