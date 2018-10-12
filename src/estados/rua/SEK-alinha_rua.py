@@ -98,7 +98,7 @@ def alinha1(): #Começar função alinha com StopMotion
 def alinha():
 	motorEsquerda.run_forever(speed_sp=0)
 	motorDireita.run_forever(speed_sp=0)
-	while(colors[SensorCorDir.value()] != 'white') or (colors[SensorCorEsq.value()] != 'white'):
+	while(colors[SensorCorDir.value()] != 'white') and (colors[SensorCorEsq.value()] != 'white'):
 		if(colors[SensorCorDir.value()] != 'white'):
 			motorDireita.run_forever(speed_sp=-50)
 		else:
@@ -126,20 +126,22 @@ def main(): #TESTES
 				print("BORA PRA MANOBRA")
 				manobra1()
 		elif (colors[SensorCorDir.value()] == 'yellow') or (colors[SensorCorEsq.value()] =='yellow'):
-			while (colors[SensorCorDir.value()] != 'yellow') or (colors[SensorCorEsq.value()] !='yellow'):
-				motorEsquerda.run_forever(speed_sp=200)
-				motorDireita.run_forever(speed_sp=200)
-			alinha()
+			sleep(0.2)
+			if (colors[SensorCorDir.value()] == 'yellow') and (colors[SensorCorEsq.value()] =='yellow'):
+				alinha()
 		elif (colors[SensorCorDir.value()] == 'red') or (colors[SensorCorEsq.value()] =='red'):
-			while (colors[SensorCorDir.value()] != 'red') or (colors[SensorCorEsq.value()] !='red'):
-				motorEsquerda.run_forever(speed_sp=200)
-				motorDireita.run_forever(speed_sp=200)
-			alinha()
-		elif (colors[SensorCorDir.value()] == 'green') or (colors[SensorCorEsq.value()] =='green') or (colors[SensorCorDir.value()] == 'blue') or (colors[SensorCorEsq.value()] =='blue'):
-			while (colors[SensorCorDir.value()] == 'green') and (colors[SensorCorEsq.value()] =='green') or (colors[SensorCorDir.value()] == 'blue') or (colors[SensorCorEsq.value()] =='blue'):
-				motorEsquerda.run_forever(speed_sp=200)
-				motorDireita.run_forever(speed_sp=200)
-			alinha()
+			sleep(0.2)
+			if (colors[SensorCorDir.value()] == 'red') and (colors[SensorCorEsq.value()] =='red'):
+				alinha()
+		elif (colors[SensorCorDir.value()] == 'green') or (colors[SensorCorEsq.value()] =='green'):
+			sleep(0.2)
+			if (colors[SensorCorDir.value()] == 'green') and (colors[SensorCorEsq.value()] =='green'):
+				alinha()
+
+
 
 while(True):
 	main()
+
+
+
