@@ -74,3 +74,4 @@ Sensores:
 * Wesna Simone Bulla de Araujo
 * Natan Rodrigues de Oliveira
 * Luis Felipe Brentegani
+* Igor Amorim
