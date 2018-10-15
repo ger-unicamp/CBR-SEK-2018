@@ -8,10 +8,10 @@ colors=('none','black','blue','green','yellow','red','white','brown')
 has_boneco = False#variavel de verificacao para pegar ou nao bonecos
 labyrinth = False#para saber quando ja conhecemos o laribirinto (1a vez apenas)
 #path = list() #lista com as direcoes a serem seguidas pelo trajeto (path)
-times = 0 #quantidade de interseccoes passadas times p. [0,4]
+number_of_inter = 4 # na FINAL trocar por 6
+times = 0 #quantidade de interseccoes passadas times pertence ao intervalo [0,number_of_inter]
 way = 1 #1 se for ida (direto) ao setido do plaza, 0 se for volta (contrario) ao sentido do plaza
 inter = Interseccao()
-number_of_inter = 4 # na FINAL trocar por 6
 
 # definicao de motores----------------------------------------------------------
 motorDireita = LargeMotor('outC')
