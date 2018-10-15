@@ -110,7 +110,7 @@ def main():
             elif times == number_of_inter and labyrinth:
                 rampa()#TODO
             elif times == number_of_inter and not labyrinth:
-                troca()
+                troca()#NOTE:botar a volta
         elif colors(SensorCorDir.value()) == 'black' and colors(SensorCorEsq.value()) == 'black':
             volta()#TODO
 if __name__ == '__main__':
