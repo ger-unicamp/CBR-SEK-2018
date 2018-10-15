@@ -28,8 +28,6 @@ class Interseccao:
 			elif 1 not in self.inter.values() and self.verify_dir==-1:
                 self.verify_dir+=1
                 return 1
-			# elif 2 not in self.inter.values():
-            #     return 2
             else:
                 self.verify_dir = 2
                 return 0
