@@ -93,6 +93,7 @@ def main():
     calibraGyro()
 	push = False #variavel para salvar as infos na interseccao
 	cor = 0 #none
+	direcao = 0 #cuidados com escopo de condicional
     Sound.speak('Hello Humans!').wait()
     motorDireita.run_forever(speed_sp=200)
     motorEsquerda.run_forever(speed_sp=200)
