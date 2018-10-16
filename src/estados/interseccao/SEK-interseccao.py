@@ -23,6 +23,9 @@ class Interseccao:
 			return self.iter['{}'.format(cor)]
 		else:
 			if 0 not in self.inter.values():
+				if 1 in self.inter.values() and self.verify_dir!=-1:
+					self.verify_dir = 2
+					return 1
                 self.verify_dir+=1
                 return 0
 			elif 1 not in self.inter.values() and self.verify_dir==-1:
