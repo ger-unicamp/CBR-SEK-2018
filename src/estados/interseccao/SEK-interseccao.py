@@ -13,6 +13,8 @@ class Interseccao:
     def push(self, cor, direcao):
         if(direcao==0):
             self.inter['{}'.format(cor)]=self.verify_dir
+        elif direcao == 1 and self.verify_dir == 2:
+            self.inter['{}'.format(cor)] = self.verify_dir
         else:
             self.inter['{}'.format(cor)] = direcao
         self.verify_dir =-1
