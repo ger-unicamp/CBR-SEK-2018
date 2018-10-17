@@ -22,6 +22,8 @@ class Interseccao:
     def push(self, cor, direcao):
         if(direcao==0):
             self.inter['{}'.format(cor)]=self.verify_dir
+        elif direcao == 1 and self.verify_dir == 2:
+            self.inter['{}'.format(cor)] = self.verify_dir
         else:
             self.inter['{}'.format(cor)] = direcao
         self.verify_dir =-1
@@ -32,6 +34,9 @@ class Interseccao:
 			return self.iter['{}'.format(cor)]
 		else:
 			if 0 not in self.inter.values():
+				if 1 in self.inter.values() and self.verify_dir!=-1:#tratar o caso 1,2,0
+					self.verify_dir = 2
+					return 1
                 self.verify_dir+=1
                 return 0
 			elif 1 not in self.inter.values() and self.verify_dir==-1:
