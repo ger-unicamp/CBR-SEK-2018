@@ -9,10 +9,11 @@ has_boneco = False#variavel de verificacao para pegar ou nao bonecos
 labyrinth = False#para saber quando ja conhecemos o laribirinto (1a vez apenas)
 #path = list() #lista com as direcoes a serem seguidas pelo trajeto (path)
 number_of_inter = 4 # na FINAL trocar por 6
-times = 0 #quantidade de interseccoes passadas times pertence ao intervalo [0,number_of_inter]
+times = 0 #quantidade de interseccoes passadas, times pertence ao intervalo [0,number_of_inter]
 way = 1 #1 se for ida (direto) ao setido do plaza, 0 se for volta (contrario) ao sentido do plaza
-inter = Interseccao()
-plaza = False
+inter = Interseccao()#interseccao
+plaza = False#flag para o plaza (esta ou nao esta no plaza)
+direcao = -1#manipular direcao na funcao interseccao
 
 # definicao de motores----------------------------------------------------------
 motorDireita = LargeMotor('outC')
@@ -41,7 +42,7 @@ def calibraGyro():
     sleep(1)
     gyro.mode = 'GYRO-ANG'
     sleep(1)
-def troca():#NOTE: trocar direcoes das cores
+def troca():
     if way ==1: way=0
     else: way=1
     if times==number_of_inter and not labyrinth: labyrinth=True
@@ -85,7 +86,11 @@ def agarrarBoneco():
     motorDireita.run_timed(time_sp=1400, speed_sp=-200)
     motorEsquerda.run_timed(time_sp=1400, speed_sp=-200)
     sleep(3)
-    girarRobo(-90)
+    if way == 1:
+        girarRobo(-90)
+    else:
+        girarRobo(90)
+        troca()
     has_boneco = True
     calibraGyro()
 def andarReto():
@@ -97,29 +102,82 @@ def volta():
     girarRobo(90)
     girarRobo(90)
     andarReto()
+def interseccao(old_color, cor):#NOTE: tratar o caso da ultima interseccao (times==3)
+    motorDireita.run_timed(time_sp=3000, speed_sp=200)
+    motorEsquerda.run_timed(time_sp=3000, speed_sp=200)
+    if labyrinth:
+        direcao = inter.acessa(cor)
+        if direcao == 0 and way == 1:#direita
+            girarRobo(90)
+            motorDireita.run_timed(time_sp=3000, speed_sp=200)
+            motorEsquerda.run_timed(time_sp=3000, speed_sp=200)
+            andarReto()
+        elif direcao == 0 and way == 0:#esquerda
+            girarRobo(-90)
+            motorDireita.run_timed(time_sp=3000, speed_sp=200)
+            motorEsquerda.run_timed(time_sp=3000, speed_sp=200)
+            andarReto()
+        elif direcao == 1:#frente
+            motorDireita.run_timed(time_sp=3000, speed_sp=200)
+            motorEsquerda.run_timed(time_sp=3000, speed_sp=200)
+            andarReto()
+        elif direcao == 2 and way == 1:#esquerda
+            girarRobo(-90)
+            motorDireita.run_timed(time_sp=3000, speed_sp=200)
+            motorEsquerda.run_timed(time_sp=3000, speed_sp=200)
+            andarReto()
+        elif direcao == 2 and way == 0:#direita
+            girarRobo(90)
+            motorDireita.run_timed(time_sp=3000, speed_sp=200)
+            motorEsquerda.run_timed(time_sp=3000, speed_sp=200)
+            andarReto()
+        if way == 1: times+=1#sentido direto, acrescenta interseccao
+        else: times -= 1#sentido contrario, diminui interseccao
+    else:#aqui so entramos na primeira vez no sentido do plaza e way sempre sera igual a 1
+        if direcao != -1 and (colors[old_color] == 'blue' or colors[old_color] == 'green' or colors[old_color] == 'red'):
+            inter.push(old_color, direcao)
+            times += 1 #atualiza as interseccoes passadas dps de ter certeza que passou
+        direcao = inter.where_to_go(cor)
+        if direcao == 0:#direita
+            girarRobo(90)
+            motorDireita.run_timed(time_sp=3000, speed_sp=200)
+            motorEsquerda.run_timed(time_sp=3000, speed_sp=200)
+            andarReto()
+        elif direcao == 1:#frente
+            motorDireita.run_timed(time_sp=3000, speed_sp=200)
+            motorEsquerda.run_timed(time_sp=3000, speed_sp=200)
+            andarReto()
+        else:#esquerda
+            girarRobo(-90)
+            motorDireita.run_timed(time_sp=3000, speed_sp=200)
+            motorEsquerda.run_timed(time_sp=3000, speed_sp=200)
+            andarReto()
 
 #funcao main -------------------------------------------------------------------
 def main():
     btn = Button()
     calibraGyro()
+    cor = 0 #none
     Sound.speak('Hello Humans!').wait()
     while not btn.any():
-        if colors(SensorCorDir.value()) == 'white' and colors(SensorCorEsq.value()) == 'white':
-            andarReto()#NOTE: VAI RODAR TODA VEZ QUE ESTIVER EM BRANCO?
-            if ultrassonico() and not has_boneco and labyrinth:
-                agarrarBoneco()
-                troca()
-        elif (colors(SensorCorDir.value()) == 'white' and colors(SensorCorEsq.value()) == 'black') or (colors(SensorCorDir.value()) == 'black' and colors(SensorCorEsq.value()) == 'white'):#NOTE: botar none e brown
+        if colors[SensorCorDir.value()] == 'white' and colors[SensorCorEsq.value()] == 'white':
+            andarReto()
+            if ultrassonico() and not has_boneco and labyrinth and not plaza:
+                agarrarBoneco()#caso way == 0, a funcao troca() eh chamada dentro da funcao agarrarBoneco()
+        elif (colors[SensorCorDir.value()] == 'white' and colors[SensorCorEsq.value()] == 'black') or (colors[SensorCorDir.value()] == 'black' and colors[SensorCorEsq.value()] == 'white') and not plaza:#NOTE: botar none e brown
             alinhaRua()#TODO
-        elif colors(SensorCorDir.value()) != 'white' and colors(SensorCorDir.value()) != 'black' and colors(SensorCorEsq.value()) != 'white' and colors(SensorCorEsq.value()) != 'black':
+        elif colors[SensorCorDir.value()] != 'white' and colors[SensorCorDir.value()] != 'black' and colors[SensorCorEsq.value()] != 'white' and colors[SensorCorEsq.value()] != 'black':
+            old_color = cor #dependemos da cor anterior para saber se a direcao esta correta
+            cor = SensorCorDir.value()#NOTE: pegar de um sensor só?
             if times < number_of_inter:
-                interseccao()#TODO
+                interseccao(old_color, cor)
             elif times == number_of_inter and labyrinth:
                 rampa()#TODO e NOTE: mudar flag plaza
             elif times == number_of_inter and not labyrinth:
-                troca()#NOTE:botar a volta
+                troca()
                 volta()
-        elif colors(SensorCorDir.value()) == 'black' and colors(SensorCorEsq.value()) == 'black':
+        elif colors[SensorCorDir.value()] == 'black' and colors[SensorCorEsq.value()] == 'black':
+            cor = 0#caso de rua sem saida: old_color recebe 0 novamente
             volta()
 if __name__ == '__main__':
     main()
