@@ -99,7 +99,9 @@ def andarReto():
 def volta():
     motorDireita.run_timed(time_sp=800 speed_sp=-200)
     motorEsquerda.run_timed(time_sp=800 speed_sp=-200)
+    sleep(0.9)
     girarRobo(90)
+    sleep(1)
     girarRobo(90)
     andarReto()
 def interseccao(old_color, cor):#NOTE: tratar o caso da ultima interseccao (times==3)
