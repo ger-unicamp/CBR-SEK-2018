@@ -17,6 +17,7 @@ labirinto, por isso o nome. Analogamente, o where_to_go, usado quando ainda nao 
 
 class Interseccao:
     def __init__(self):
+        #0 DIREITA, 1 FRENTE, 2 ESQUERDA
         self.inter = {'2': -1, '3': -1, '5': -1}#as chaves sao as cores, comeca com -1 pq ainda n sabemosa  direcao
         self.verify_dir = -1#variavel para verificacao da direcao a ser 'pushed'
     def push(self, cor, direcao):

@@ -12,6 +12,7 @@ number_of_inter = 4 # na FINAL trocar por 6
 times = 0 #quantidade de interseccoes passadas times pertence ao intervalo [0,number_of_inter]
 way = 1 #1 se for ida (direto) ao setido do plaza, 0 se for volta (contrario) ao sentido do plaza
 inter = Interseccao()
+plaza = False
 
 # definicao de motores----------------------------------------------------------
 motorDireita = LargeMotor('outC')
@@ -40,10 +41,15 @@ def calibraGyro():
     sleep(1)
     gyro.mode = 'GYRO-ANG'
     sleep(1)
-def troca():
+def troca():#NOTE: trocar direcoes das cores
     if way ==1: way=0
     else: way=1
-    if times==4 and not labyrinth: labyrinth=True
+    if times==number_of_inter and not labyrinth: labyrinth=True
+def ultrassonico():
+    aux = [ultrassonico.value()/10 for i in range(10)]
+    aux.sort()
+    if aux[4] < 20: return True
+    else: return False
 def girarRobo(anguloDesejado):
     calibraGyro()
     anguloSensor = gyro.value()
@@ -85,33 +91,35 @@ def agarrarBoneco():
 def andarReto():
     motorDireita.run_forever(speed_sp=200)
     motorEsquerda.run_forever(speed_sp=200)
-    
+def volta():
+    motorDireita.run_timed(time_sp=800 speed_sp=-200)
+    motorEsquerda.run_timed(time_sp=800 speed_sp=-200)
+    girarRobo(90)
+    girarRobo(90)
+    andarReto()
+
 #funcao main -------------------------------------------------------------------
 def main():
-    aux = list()#auxiliar para ler adequadamente o ultrassonico
     btn = Button()
     calibraGyro()
     Sound.speak('Hello Humans!').wait()
     while not btn.any():
         if colors(SensorCorDir.value()) == 'white' and colors(SensorCorEsq.value()) == 'white':
             andarReto()#NOTE: VAI RODAR TODA VEZ QUE ESTIVER EM BRANCO?
-            aux = [ultrassonico.value()/10 for i in range(10)]
-            aux.sort()
-            if aux[4] < 20 and not has_boneco and labyrinth:
+            if ultrassonico() and not has_boneco and labyrinth:
                 agarrarBoneco()
                 troca()
-            aux.clear()
-        #tratar pista
-        elif (colors(SensorCorDir.value()) == 'white' and colors(SensorCorEsq.value()) == 'black') or (colors(SensorCorDir.value()) == 'black' and colors(SensorCorEsq.value()) == 'white'):
-            alinhar()#TODO
+        elif (colors(SensorCorDir.value()) == 'white' and colors(SensorCorEsq.value()) == 'black') or (colors(SensorCorDir.value()) == 'black' and colors(SensorCorEsq.value()) == 'white'):#NOTE: botar none e brown
+            alinhaRua()#TODO
         elif colors(SensorCorDir.value()) != 'white' and colors(SensorCorDir.value()) != 'black' and colors(SensorCorEsq.value()) != 'white' and colors(SensorCorEsq.value()) != 'black':
             if times < number_of_inter:
                 interseccao()#TODO
             elif times == number_of_inter and labyrinth:
-                rampa()#TODO
+                rampa()#TODO e NOTE: mudar flag plaza
             elif times == number_of_inter and not labyrinth:
                 troca()#NOTE:botar a volta
+                volta()
         elif colors(SensorCorDir.value()) == 'black' and colors(SensorCorEsq.value()) == 'black':
-            volta()#TODO
+            volta()
 if __name__ == '__main__':
     main()
