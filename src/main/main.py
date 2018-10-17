@@ -94,6 +94,7 @@ def andarReto():
 def volta():
     motorDireita.run_timed(time_sp=800 speed_sp=-200)
     motorEsquerda.run_timed(time_sp=800 speed_sp=-200)
+    sleep(900)
     girarRobo(90)
     girarRobo(90)
     andarReto()
