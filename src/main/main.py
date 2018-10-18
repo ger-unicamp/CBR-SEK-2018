@@ -178,7 +178,7 @@ def main():
             elif times == number_of_inter and not labyrinth:
                 troca()
                 volta()
-        elif colors[SensorCorDir.value()] == 'black' and colors[SensorCorEsq.value()] == 'black':
+        elif colors[SensorCorDir.value()] == 'black' and colors[SensorCorEsq.value()] == 'black' and not plaza:
             cor = 0#caso de rua sem saida: old_color recebe 0 novamente
             volta()
 if __name__ == '__main__':
