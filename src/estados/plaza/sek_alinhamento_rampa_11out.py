@@ -30,8 +30,8 @@ SensorCorEsq.mode='COL-COLOR'
 
 def rampaIda():
     if (colors[SensorCorDir] == "white") and (colors[SensorCorEsq] == "White"):
-    	print("estou no branco")
-    	sleep(0.2)
+        print("estou no branco")
+        sleep(0.2)
         motorDireita.run_forever(speed_sp=90)
         motorEsquerda.run_forever(speed_sp=90)
     elif (colors[SensorCorDir] == "white") and(colors[SensorCorEsq] == "green"):
