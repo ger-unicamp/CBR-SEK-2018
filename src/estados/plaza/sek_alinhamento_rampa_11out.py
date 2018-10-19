@@ -112,6 +112,11 @@ def rampaVolta():
         motorDireita.run_forever(speed_sp=90)
         motorEsquerda.run_forever(speed_sp=90)    
 
-while (True):
-    rampaIda()
-    
+def main():
+    btn = Button()
+    while not btn.any:
+        rampaIda()
+
+
+main()
+
