@@ -28,95 +28,135 @@ SensorCorEsq = ColorSensor('in4')
 assert SensorCorEsq.connected, "Sensor de cor nao conectado"
 SensorCorEsq.mode='COL-COLOR'
 
+tempo = 0.1
+local = " "
+localant = " "
+
 def rampaIda():
-    if (colors[SensorCorDir] == "white") and (colors[SensorCorEsq] == "White"):
+    if (colors[SensorCorDir.value()] == "white") and (colors[SensorCorEsq.value()] == "white"):
         print("estou no branco")
-        sleep(0.2)
+        local = "estou no branco"
+        if local != localant:
+            motorDireita.run_forever(speed_sp=0)
+            motorEsquerda.run_forever(speed_sp=0)            
+            sleep(0.5)
+        sleep(tempo)
         motorDireita.run_forever(speed_sp=90)
         motorEsquerda.run_forever(speed_sp=90)
-    elif (colors[SensorCorDir] == "white") and(colors[SensorCorEsq] == "green"):
+    elif (colors[SensorCorDir.value()] == "white") and(colors[SensorCorEsq.value()] == "green"):
         print("roda direita desalinhada")
-        sleep(0.2)
+        local = "roda direita desalinhada"
+        if local != localant:
+            motorDireita.run_forever(speed_sp=0)
+            motorEsquerda.run_forever(speed_sp=0)            
+            sleep(0.5)
+        sleep(tempo)
         motorDireita.run_forever(speed_sp=90)
         motorEsquerda.run_forever(speed_sp=0)
-    elif (colors[SensorCorDir] == "green") and (colors[SensorCorEsq] == "White"):
+    elif (colors[SensorCorDir.value()] == "green") and (colors[SensorCorEsq.value()] == "white"):
         print("roda esquerda desalinhada")
-        sleep(0.2)
+        local = "roda esquerda desalinhada"
+        if local != localant:
+            motorDireita.run_forever(speed_sp=0)
+            motorEsquerda.run_forever(speed_sp=0)            
+            sleep(0.5)
+        sleep(tempo)
         motorDireita.run_forever(speed_sp=0)
         motorEsquerda.run_forever(speed_sp=90)
-    elif (colors[SensorCorDir] == "green") and(colors[SensorCorEsq] == "green"):
+    elif (colors[SensorCorDir.value()] == "green") and(colors[SensorCorEsq.value()] == "green"):
         print("rodas alinhadas")
-        sleep(0.2)
+        local = "rodas alinhadas"
+        if local != localant:
+            motorDireita.run_forever(speed_sp=0)
+            motorEsquerda.run_forever(speed_sp=0)            
+            sleep(0.5)
+        sleep(tempo)
         motorDireita.run_forever(speed_sp=90)
         motorEsquerda.run_forever(speed_sp=90)
-    elif (colors[SensorCorDir] == "green") and(colors[SensorCorEsq] == "blue"):
+    elif (colors[SensorCorDir.value()] == "green") and(colors[SensorCorEsq.value()] == "blue"):
         print("roda direita desalinhada2")
-        sleep(0.2)
+        local = "roda direita desalinhada2"
+        if local != localant:
+            motorDireita.run_forever(speed_sp=0)
+            motorEsquerda.run_forever(speed_sp=0)            
+            sleep(0.5)
+        sleep(tempo)
         motorDireita.run_forever(speed_sp=90)
         motorEsquerda.run_forever(speed_sp=0)
-    elif (colors[SensorCorDir] == "blue") and (colors[SensorCorEsq] == "green"):
+    elif (colors[SensorCorDir.value()] == "blue") and (colors[SensorCorEsq.value()] == "green"):
         print("roda esquerda desalinhada2")
-        sleep(0.2)
+        local = "roda esquerda desalinhada2"
+        if local != localant:
+            motorDireita.run_forever(speed_sp=0)
+            motorEsquerda.run_forever(speed_sp=0)            
+            sleep(0.5)
+        sleep(tempo)
         motorDireita.run_forever(speed_sp=0)
         motorEsquerda.run_forever(speed_sp=90)
-    elif (colors[SensorCorDir] == "blue") and(colors[SensorCorEsq] == "blue"):
+    elif (colors[SensorCorDir.value()] == "blue") and(colors[SensorCorEsq.value()] == "blue"):
         print("rodas alinhadas2")
-        sleep(0.2)
+        local = "rodas alinhadas2"
+        if local != localant:
+            motorDireita.run_forever(speed_sp=0)
+            motorEsquerda.run_forever(speed_sp=0)            
+            sleep(0.5)
+        sleep(tempo)
         motorDireita.run_forever(speed_sp=90)
         motorEsquerda.run_forever(speed_sp=90)
-    elif (colors[SensorCorDir] == "red") or(colors[SensorCorDir] == "red"):
+    elif (colors[SensorCorDir.value()] == "red") or(colors[SensorCorDir.value()] == "red"):
         print("estou no vermelho")
-        sleep(0.2)
+        local = "estou no vermelho"
+        if local != localant:
+            motorDireita.run_forever(speed_sp=0)
+            motorEsquerda.run_forever(speed_sp=0)            
+            sleep(0.5)
+        sleep(tempo)
         motorDireita.run_forever(speed_sp=90)
         motorEsquerda.run_forever(speed_sp=90)
+    localant = local
 
 def rampaVolta():
-    if (colors[SensorCorDir] == "white") and (colors[SensorCorEsq] == "White"):
+    if (colors[SensorCorDir.value()] == "white") and (colors[SensorCorEsq.value()] == "white"):
         print("estou no branco")
-        sleep(0.2)
+        sleep(tempo)
         motorDireita.run_forever(speed_sp=90)
         motorEsquerda.run_forever(speed_sp=90)
-    elif (colors[SensorCorDir] == "white") and(colors[SensorCorEsq] == "red"):
+    elif (colors[SensorCorDir.value()] == "white") and(colors[SensorCorEsq.value()] == "red"):
         print("roda direita desalinhada")
-        sleep(0.2)
+        sleep(tempo)
         motorDireita.run_forever(speed_sp=90)
         motorEsquerda.run_forever(speed_sp=0)
-    elif (colors[SensorCorDir] == "red") and (colors[SensorCorEsq] == "White"):
+    elif (colors[SensorCorDir.value()] == "red") and (colors[SensorCorEsq.value()] == "white"):
         print("roda esquerda desalinhada")
-        sleep(0.2)
+        sleep(tempo)
         motorDireita.run_forever(speed_sp=0)
         motorEsquerda.run_forever(speed_sp=90)
-    elif (colors[SensorCorDir] == "red") and(colors[SensorCorEsq] == "red"):
+    elif (colors[SensorCorDir.value()] == "red") and(colors[SensorCorEsq.value()] == "red"):
         print("rodas alinhadas")
-        sleep(0.2)
+        sleep(tempo)
         motorDireita.run_forever(speed_sp=90)
         motorEsquerda.run_forever(speed_sp=90)
-    elif (colors[SensorCorDir] == "red") and(colors[SensorCorEsq] == "blue"):
+    elif (colors[SensorCorDir.value()] == "red") and(colors[SensorCorEsq].value() == "blue"):
         print("roda direita desalinhada2")
-        sleep(0.2)
+        sleep(tempo)
         motorDireita.run_forever(speed_sp=90)
         motorEsquerda.run_forever(speed_sp=0)
-    elif (colors[SensorCorDir] == "blue") and (colors[SensorCorEsq] == "red"):
+    elif (colors[SensorCorDir.value()] == "blue") and (colors[SensorCorEsq.value()] == "red"):
         print("roda esquerda desalinhada2")
-        sleep(0.2)
+        sleep(tempo)
         motorDireita.run_forever(speed_sp=0)
         motorEsquerda.run_forever(speed_sp=90)
-    elif (colors[SensorCorDir] == "blue") and(colors[SensorCorEsq] == "blue"):
+    elif (colors[SensorCorDir.value()] == "blue") and(colors[SensorCorEsq.value()] == "blue"):
         print("rodas alinhadas2")
-        sleep(0.2)
+        sleep(tempo)
         motorDireita.run_forever(speed_sp=90)
         motorEsquerda.run_forever(speed_sp=90)
-    elif (colors[SensorCorDir] == "green") or(colors[SensorCorEsq] == "green"):
+    elif (colors[SensorCorDir.value()] == "green") or(colors[SensorCorEsq.value()] == "green"):
         print("estou no verde")
-        sleep(0.2)
+        sleep(tempo)
         motorDireita.run_forever(speed_sp=90)
         motorEsquerda.run_forever(speed_sp=90)    
 
-def main():
-    btn = Button()
-    while not btn.any:
-        rampaIda()
-
-
-main()
+while(True):
+    rampaIda()
 
