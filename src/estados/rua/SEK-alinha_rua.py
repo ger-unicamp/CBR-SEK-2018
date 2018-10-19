@@ -76,24 +76,6 @@ def manobra1():
 		motorEsquerda.run_timed(time_sp=1100, speed_sp=-200)
 		girarRobo(90)
 
-# def alinha1(): #Começar função alinha com StopMotion
-# 	motorEsquerda.run_forever(speed_sp=0)
-# 	motorDireita.run_forever(speed_sp=0)
-# 	sleep(0.4)
-# 	while(colors[SensorCorDir.value()] != 'white') or (colors[SensorCorEsq.value()] != 'white'):
-# 		motorDireita.run_forever(speed_sp=-100)
-# 		motorEsquerda.run_forever(speed_sp=-100)
-# 	if(colors[SensorCorDir.value()] == 'white'):
-# 		while (colors[SensorCorEsq.value()] != 'white'):
-# 			motorDireita.run_forever(speed_sp=0) #STOP ACTION
-# 			motorEsquerda.run_forever(speed_sp=-180)
-# 	elif(colors[SensorCorEsq.value()] == 'white'):
-# 		while (colors[SensorCorDir.value()] != 'white'):
-# 			motorDireita.run_forever(speed_sp=-180) #STOP ACTION
-# 			motorEsquerda.run_forever(speed_sp=0)
-# 	motorEsquerda.run_forever(speed_sp=0)
-# 	motorDireita.run_forever(speed_sp=0)
-# 	exit()
 
 def alinha():
 	motorEsquerda.run_forever(speed_sp=0)
@@ -109,7 +91,6 @@ def alinha():
 			motorEsquerda.run_forever(speed_sp=0)
 	motorEsquerda.run_forever(speed_sp=0)
 	motorDireita.run_forever(speed_sp=0)
-	#exit()
 
 def main(): #TESTES
 	motorEsquerda.run_forever(speed_sp=200) #Começa o programa andando
