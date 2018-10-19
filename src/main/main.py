@@ -105,8 +105,8 @@ def volta():
     girarRobo(90)
     andarReto()
 def interseccao(old_color, cor):#NOTE: tratar o caso da ultima interseccao (times==3)
-    motorDireita.run_timed(time_sp=3000, speed_sp=200)
-    motorEsquerda.run_timed(time_sp=3000, speed_sp=200)
+    motorDireita.run_timed(time_sp=1600, speed_sp=200)
+    motorEsquerda.run_timed(time_sp=1600, speed_sp=200)
     if labyrinth:
         direcao = inter.acessa(cor)
         if direcao == 0 and way == 1:#direita
