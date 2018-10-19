@@ -72,45 +72,45 @@ def rampaIda():
 
 def rampaVolta():
     if (colors[SensorCorDir] == "white") and (colors[SensorCorEsq] == "White"):
-    	print("estou no branco")
-    	sleep(0.2)
-	motorDireita.run_forever(speed_sp=90)
-	motorEsquerda.run_forever(speed_sp=90)
+        print("estou no branco")
+        sleep(0.2)
+        motorDireita.run_forever(speed_sp=90)
+        motorEsquerda.run_forever(speed_sp=90)
     elif (colors[SensorCorDir] == "white") and(colors[SensorCorEsq] == "red"):
         print("roda direita desalinhada")
         sleep(0.2)
         motorDireita.run_forever(speed_sp=90)
-	motorEsquerda.run_forever(speed_sp=0)
+        motorEsquerda.run_forever(speed_sp=0)
     elif (colors[SensorCorDir] == "red") and (colors[SensorCorEsq] == "White"):
         print("roda esquerda desalinhada")
         sleep(0.2)
         motorDireita.run_forever(speed_sp=0)
-	motorEsquerda.run_forever(speed_sp=90)
+        motorEsquerda.run_forever(speed_sp=90)
     elif (colors[SensorCorDir] == "red") and(colors[SensorCorEsq] == "red"):
         print("rodas alinhadas")
         sleep(0.2)
         motorDireita.run_forever(speed_sp=90)
-	motorEsquerda.run_forever(speed_sp=90)
+        motorEsquerda.run_forever(speed_sp=90)
     elif (colors[SensorCorDir] == "red") and(colors[SensorCorEsq] == "blue"):
         print("roda direita desalinhada2")
         sleep(0.2)
         motorDireita.run_forever(speed_sp=90)
-	motorEsquerda.run_forever(speed_sp=0)
+        motorEsquerda.run_forever(speed_sp=0)
     elif (colors[SensorCorDir] == "blue") and (colors[SensorCorEsq] == "red"):
         print("roda esquerda desalinhada2")
         sleep(0.2)
         motorDireita.run_forever(speed_sp=0)
-	motorEsquerda.run_forever(speed_sp=90)
+        motorEsquerda.run_forever(speed_sp=90)
     elif (colors[SensorCorDir] == "blue") and(colors[SensorCorEsq] == "blue"):
         print("rodas alinhadas2")
         sleep(0.2)
         motorDireita.run_forever(speed_sp=90)
-	motorEsquerda.run_forever(speed_sp=90)
+        motorEsquerda.run_forever(speed_sp=90)
     elif (colors[SensorCorDir] == "green") or(colors[SensorCorEsq] == "green"):
         print("estou no verde")
         sleep(0.2)
         motorDireita.run_forever(speed_sp=90)
-	motorEsquerda.run_forever(speed_sp=90)    
+        motorEsquerda.run_forever(speed_sp=90)    
 
 while (True):
     rampaIda()
