@@ -109,11 +109,11 @@ def alinha():
 	motorDireita.run_forever(speed_sp=0)
 	while(colors[SensorCorDir.value()] != 'white') or (colors[SensorCorEsq.value()] != 'white'):
 		if(colors[SensorCorDir.value()] != 'white'): #Enquanto os dois não estiverem fora da interssecção ou fora do fim de pista, alinha os dois sensores
-			motorDireita.run_forever(speed_sp=-50) #em branco
+			motorDireita.run_forever(speed_sp=-100) #em branco
 		else:
 			motorDireita.run_forever(speed_sp=0)
 		if(colors[SensorCorEsq.value()] != 'white'):
-			motorEsquerda.run_forever(speed_sp=-50)
+			motorEsquerda.run_forever(speed_sp=-100)
 		else:
 			motorEsquerda.run_forever(speed_sp=0)
 	motorEsquerda.run_forever(speed_sp=0)
@@ -169,29 +169,59 @@ def interseccao(old_color, cor):#NOTE: tratar o caso da ultima interseccao (time
             motorEsquerda.run_timed(time_sp=3000, speed_sp=200)
             andarReto()
 def manobra1():
+	print("ENTREI NA MANOBRA!! ")
 	motorDireita.run_forever(speed_sp=0) #Para o robo para executar a manobra
 	motorEsquerda.run_forever(speed_sp=0) #STOP ACTION
 	if (colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorDir.value()] == 'brown'): #confere se o sensor direito está fora da pista
-		while(colors[SensorCorEsq.value()] == 'white'):
-			motorDireita.run_forever(speed_sp=0) #STOP ACTION
-			motorEsquerda.run_forever(speed_sp=180) #Gira roda esquerda
-		sleep(0.1)
-		motorEsquerda.run_forever(speed_sp=0) #Para o robo na beirada da pista #STOP ACTION
-		sleep(1)
-		motorDireita.run_timed(time_sp=1100, speed_sp=-200) #Retorna ao meio da pista
-		motorEsquerda.run_timed(time_sp=1100, speed_sp=-200)
-		girarRobo(-90) #Gira para voltar ao percurso
-	elif (colors[SensorCorEsq.value()] == 'none') or (colors[SensorCorEsq.value()] == 'black') or (colors[SensorCorEsq.value()] == 'brown'): #Tudo igual de maneira antagonica
-		while(colors[SensorCorDir.value()] == 'white'):
-			print("RODANDO PARA A ESQUEDA")
-			motorEsquerda.run_forever(speed_sp=0) #STOP ACTION
-			motorDireita.run_forever(speed_sp=180)
-		sleep(0.1)
 		motorDireita.run_forever(speed_sp=0) #STOP ACTION
-		sleep(1)
-		motorDireita.run_timed(time_sp=1100, speed_sp=-200)
-		motorEsquerda.run_timed(time_sp=1100, speed_sp=-200)
-		girarRobo(90)
+		motorEsquerda.run_forever(speed_sp=180) #Gira roda esquerda
+		sleep(0.3)
+		x = colors[SensorCorEsq.value()]
+		print(x)
+		if x != 'black':
+			while(colors[SensorCorEsq.value()] == x):
+				print("RODANDO PARA A DIREITA")
+				motorDireita.run_forever(speed_sp=0) #STOP ACTION
+				motorEsquerda.run_forever(speed_sp=180) #Gira roda esquerda
+			sleep(0.1)
+			motorEsquerda.run_forever(speed_sp=0) #Para o robo na beirada da pista #STOP ACTION
+			sleep(1)
+			motorDireita.run_timed(time_sp=1100, speed_sp=-200) #Retorna ao meio da pista
+			motorEsquerda.run_timed(time_sp=1100, speed_sp=-200)
+			girarRobo(-90) #Gira para voltar ao percurso
+		else: #Fim de pista
+			motorDireita.run_forever(speed_sp=-180)
+			motorEsquerda.run_forever(speed_sp=-180)
+			sleep(0.3)
+			motorDireita.run_forever(speed_sp=0) #Roda
+			sleep(0.3)
+			motorEsquerda.run_forever(speed_sp=0)
+			sleep(0.1)
+	elif (colors[SensorCorEsq.value()] == 'none') or (colors[SensorCorEsq.value()] == 'black') or (colors[SensorCorEsq.value()] == 'brown'): #Tudo igual de maneira antagonica
+		motorEsquerda.run_forever(speed_sp=0) #STOP ACTION
+		motorDireita.run_forever(speed_sp=180)
+		sleep(0.3)
+		x = SensorCorDir.value()
+		print(x)
+		if x != 'black':
+			while(colors[SensorCorDir.value()] == x):
+				print("RODANDO PARA A ESQUEDA")
+				motorEsquerda.run_forever(speed_sp=0) #STOP ACTION
+				motorDireita.run_forever(speed_sp=180)
+			sleep(0.1)
+			motorDireita.run_forever(speed_sp=0) #STOP ACTION
+			sleep(1)
+			motorDireita.run_timed(time_sp=1100, speed_sp=-200)
+			motorEsquerda.run_timed(time_sp=1100, speed_sp=-200)
+			girarRobo(90)
+		else: #Fim de pista
+			motorDireita.run_forever(speed_sp=-180)
+			motorEsquerda.run_forever(speed_sp=-180)
+			sleep(0.3)
+			motorDireita.run_forever(speed_sp=0) #Roda
+			sleep(0.3)
+			motorEsquerda.run_forever(speed_sp=0)
+			sleep(0.1)
 
 
 #funcao main -------------------------------------------------------------------
