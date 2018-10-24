@@ -2,7 +2,7 @@
 from ev3dev.ev3 import *
 from time import sleep
 
-# definicao de motores
+# definicao de motores                                                    #PRÉ CODAGEM
 motorDireita = LargeMotor('outC')
 motorEsquerda = LargeMotor('outB')
 motorGarra = MediumMotor('outA')
@@ -76,6 +76,60 @@ def manobra1():
 		motorEsquerda.run_timed(time_sp=1100, speed_sp=-200)
 		girarRobo(90)
 
+def manobraextra():
+	print("ENTREI NA MANOBRA!! ")
+	motorDireita.run_forever(speed_sp=0) #Para o robo para executar a manobra
+	motorEsquerda.run_forever(speed_sp=0) #STOP ACTION
+	if (colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorDir.value()] == 'brown'): #confere se o sensor direito está fora da pista
+		motorDireita.run_forever(speed_sp=0) #STOP ACTION
+		motorEsquerda.run_forever(speed_sp=180) #Gira roda esquerda
+		sleep(0.3)
+		x = colors[SensorCorEsq.value()]
+		print(x)
+		if x != 'black':
+			while(colors[SensorCorEsq.value()] == x):
+				print("RODANDO PARA A DIREITA")
+				motorDireita.run_forever(speed_sp=0) #STOP ACTION
+				motorEsquerda.run_forever(speed_sp=180) #Gira roda esquerda
+			sleep(0.1)
+			motorEsquerda.run_forever(speed_sp=0) #Para o robo na beirada da pista #STOP ACTION
+			sleep(1)
+			motorDireita.run_timed(time_sp=1100, speed_sp=-200) #Retorna ao meio da pista
+			motorEsquerda.run_timed(time_sp=1100, speed_sp=-200)
+			girarRobo(-90) #Gira para voltar ao percurso
+		else #Fim de pista
+			motorDireita.run_forever(speed_sp=-180)
+			motorEsquerda.run_forever(speed_sp=-180)
+			sleep(0.3)
+			motorDireita.run_forever(speed_sp=0) #Roda
+			sleep(0.3)
+			motorEsquerda.run_forever(speed_sp=0)
+			sleep(0.1)
+	elif (colors[SensorCorEsq.value()] == 'none') or (colors[SensorCorEsq.value()] == 'black') or (colors[SensorCorEsq.value()] == 'brown'): #Tudo igual de maneira antagonica
+		motorEsquerda.run_forever(speed_sp=0) #STOP ACTION
+		motorDireita.run_forever(speed_sp=180)
+		sleep(0.3)
+		x = SensorCorDir.value()
+		print(x)
+		if x != 'black':
+			while(colors[SensorCorDir.value()] == x):
+				print("RODANDO PARA A ESQUEDA")
+				motorEsquerda.run_forever(speed_sp=0) #STOP ACTION
+				motorDireita.run_forever(speed_sp=180)
+			sleep(0.1)
+			motorDireita.run_forever(speed_sp=0) #STOP ACTION
+			sleep(1)
+			motorDireita.run_timed(time_sp=1100, speed_sp=-200)
+			motorEsquerda.run_timed(time_sp=1100, speed_sp=-200)
+			girarRobo(90)
+		else #Fim de pista
+			motorDireita.run_forever(speed_sp=-180)
+			motorEsquerda.run_forever(speed_sp=-180)
+			sleep(0.3)
+			motorDireita.run_forever(speed_sp=0) #Roda
+			sleep(0.3)
+			motorEsquerda.run_forever(speed_sp=0)
+			sleep(0.1)
 
 def alinha():
 	motorEsquerda.run_forever(speed_sp=0)
@@ -109,7 +163,8 @@ def main(): #TESTES
 				girarRobo(180)
 			elif (colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorDir.value()] == 'brown') or (colors[SensorCorEsq.value()] =='none') or (colors[SensorCorEsq.value()] == 'black'):
 				print("BORA PRA MANOBRA") #Condição de beirada da pista
-				manobra1()
+				#manobra1()
+				manobraextra()
 		elif (colors[SensorCorDir.value()] == 'yellow') or (colors[SensorCorEsq.value()] =='yellow'): #interssecção amarela
 			sleep(0.2) #Sleep de garantia de condição
 			if (colors[SensorCorDir.value()] == 'yellow') and (colors[SensorCorEsq.value()] =='yellow'):
@@ -126,6 +181,6 @@ def main(): #TESTES
 				alinha()
 				exit()
 
-
+#--------------MAIN---------------------------------------------------------------------------------------------------------------------------------------------------------
 while(True):
 	main()
