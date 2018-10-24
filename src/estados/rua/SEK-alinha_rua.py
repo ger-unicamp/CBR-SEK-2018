@@ -97,7 +97,7 @@ def manobraextra():
 			motorDireita.run_timed(time_sp=1100, speed_sp=-200) #Retorna ao meio da pista
 			motorEsquerda.run_timed(time_sp=1100, speed_sp=-200)
 			girarRobo(-90) #Gira para voltar ao percurso
-		else #Fim de pista
+		else: #Fim de pista
 			motorDireita.run_forever(speed_sp=-180)
 			motorEsquerda.run_forever(speed_sp=-180)
 			sleep(0.3)
@@ -122,7 +122,7 @@ def manobraextra():
 			motorDireita.run_timed(time_sp=1100, speed_sp=-200)
 			motorEsquerda.run_timed(time_sp=1100, speed_sp=-200)
 			girarRobo(90)
-		else #Fim de pista
+		else: #Fim de pista
 			motorDireita.run_forever(speed_sp=-180)
 			motorEsquerda.run_forever(speed_sp=-180)
 			sleep(0.3)
@@ -136,11 +136,11 @@ def alinha():
 	motorDireita.run_forever(speed_sp=0)
 	while(colors[SensorCorDir.value()] != 'white') and (colors[SensorCorEsq.value()] != 'white'):
 		if(colors[SensorCorDir.value()] != 'white'): #Enquanto os dois não estiverem fora da interssecção ou fora do fim de pista, alinha os dois sensores
-			motorDireita.run_forever(speed_sp=-50) #em branco
+			motorDireita.run_forever(speed_sp=-180) #em branco
 		else:
 			motorDireita.run_forever(speed_sp=0)
 		if(colors[SensorCorEsq.value()] != 'white'):
-			motorEsquerda.run_forever(speed_sp=-50)
+			motorEsquerda.run_forever(speed_sp=-180)
 		else:
 			motorEsquerda.run_forever(speed_sp=0)
 	motorEsquerda.run_forever(speed_sp=0)
