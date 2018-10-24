@@ -189,12 +189,12 @@ def manobra1():
 			motorDireita.run_timed(time_sp=1100, speed_sp=-200) #Retorna ao meio da pista
 			motorEsquerda.run_timed(time_sp=1100, speed_sp=-200)
 			girarRobo(-90) #Gira para voltar ao percurso
-		else: #Fim de pista
+		else: #Fim de pista  (NAO TA FUNCIONANDO AINDA)
 			motorDireita.run_forever(speed_sp=-180)
-			motorEsquerda.run_forever(speed_sp=-180)
-			sleep(0.3)
+			motorEsquerda.run_forever(speed_sp=-180) #ARRUMAS SLEEPS
+			sleep(1.5)
 			motorDireita.run_forever(speed_sp=0) #Roda
-			sleep(0.3)
+			sleep(1.2)
 			motorEsquerda.run_forever(speed_sp=0)
 			sleep(0.1)
 	elif (colors[SensorCorEsq.value()] == 'none') or (colors[SensorCorEsq.value()] == 'black') or (colors[SensorCorEsq.value()] == 'brown'): #Tudo igual de maneira antagonica
@@ -217,10 +217,10 @@ def manobra1():
 		else: #Fim de pista
 			motorDireita.run_forever(speed_sp=-180)
 			motorEsquerda.run_forever(speed_sp=-180)
-			sleep(0.3)
-			motorDireita.run_forever(speed_sp=0) #Roda
-			sleep(0.3)
-			motorEsquerda.run_forever(speed_sp=0)
+			sleep(1.5)
+			motorEsquerda.run_forever(speed_sp=0) #Roda
+			sleep(1.2)
+			motorDireita.run_forever(speed_sp=0)
 			sleep(0.1)
 
 
