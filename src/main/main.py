@@ -107,7 +107,7 @@ def volta():
 def alinha():
 	motorEsquerda.run_forever(speed_sp=0)
 	motorDireita.run_forever(speed_sp=0)
-	while(colors[SensorCorDir.value()] != 'white') and (colors[SensorCorEsq.value()] != 'white'):
+	while(colors[SensorCorDir.value()] != 'white') or (colors[SensorCorEsq.value()] != 'white'):
 		if(colors[SensorCorDir.value()] != 'white'): #Enquanto os dois não estiverem fora da interssecção ou fora do fim de pista, alinha os dois sensores
 			motorDireita.run_forever(speed_sp=-50) #em branco
 		else:
