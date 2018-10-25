@@ -98,13 +98,24 @@ def manobraextra():
 			motorEsquerda.run_timed(time_sp=1100, speed_sp=-200)
 			girarRobo(-90) #Gira para voltar ao percurso
 		else: #Fim de pista
-			motorDireita.run_forever(speed_sp=-180)
-			motorEsquerda.run_forever(speed_sp=-180)
-			sleep(0.3)
-			motorDireita.run_forever(speed_sp=0) #Roda
-			sleep(0.3)
+			motorDireita.run_forever(speed_sp=-150)
 			motorEsquerda.run_forever(speed_sp=0)
-			sleep(0.1)
+			sleep(1.5)			
+			while(colors[SensorCorDir.value()] != 'black'):				
+				motorDireita.run_forever(speed_sp=-150)
+			motorEsquerda.run_forever(speed_sp=0)
+			while(colors[SensorCorDir.value()] != 'black') or (colors[SensorCorEsq.value()] != 'black'):
+				if(colors[SensorCorDir.value()] != 'black'): #Enquanto os dois não estiverem fora da interssecção ou fora do fim de pista, alinha os dois sensores
+					motorDireita.run_forever(speed_sp=-150) #em branco
+				else:
+					motorDireita.run_forever(speed_sp=0)
+				if(colors[SensorCorEsq.value()] != 'black'):
+					motorEsquerda.run_forever(speed_sp=-150)
+				else:
+					motorEsquerda.run_forever(speed_sp=0)
+			motorEsquerda.run_forever(speed_sp=0)
+			motorDireita.run_forever(speed_sp=0)
+
 	elif (colors[SensorCorEsq.value()] == 'none') or (colors[SensorCorEsq.value()] == 'black') or (colors[SensorCorEsq.value()] == 'brown'): #Tudo igual de maneira antagonica
 		motorEsquerda.run_forever(speed_sp=0) #STOP ACTION
 		motorDireita.run_forever(speed_sp=180)
@@ -123,14 +134,25 @@ def manobraextra():
 			motorEsquerda.run_timed(time_sp=1100, speed_sp=-200)
 			girarRobo(90)
 		else: #Fim de pista
-			motorDireita.run_forever(speed_sp=-180)
-			motorEsquerda.run_forever(speed_sp=-180)
-			sleep(0.3)
-			motorDireita.run_forever(speed_sp=0) #Roda
-			sleep(0.3)
+			motorDireita.run_forever(speed_sp=0)
+			motorEsquerda.run_forever(speed_sp=-150)
+			sleep(1.5)			
+			while(colors[SensorCorEsq.value()] != 'black'):				
+				motorEsquerda.run_forever(speed_sp=-150)
 			motorEsquerda.run_forever(speed_sp=0)
-			sleep(0.1)
+			while(colors[SensorCorDir.value()] != 'black') or (colors[SensorCorEsq.value()] != 'black'):
+				if(colors[SensorCorDir.value()] != 'black'): #Enquanto os dois não estiverem fora da interssecção ou fora do fim de pista, alinha os dois sensores
+					motorDireita.run_forever(speed_sp=-150) #em branco
+				else:
+					motorDireita.run_forever(speed_sp=0)
+				if(colors[SensorCorEsq.value()] != 'black'):
+					motorEsquerda.run_forever(speed_sp=-150)
+				else:
+					motorEsquerda.run_forever(speed_sp=0)
+			motorEsquerda.run_forever(speed_sp=0)
+			motorDireita.run_forever(speed_sp=0)
 
+			
 def alinha():
 	motorEsquerda.run_forever(speed_sp=0)
 	motorDireita.run_forever(speed_sp=0)
