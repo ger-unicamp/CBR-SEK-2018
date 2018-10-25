@@ -83,7 +83,7 @@ def manobraextra():
 	if (colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorDir.value()] == 'brown'): #confere se o sensor direito está fora da pista
 		motorDireita.run_forever(speed_sp=0) #STOP ACTION
 		motorEsquerda.run_forever(speed_sp=180) #Gira roda esquerda
-		sleep(1.2)
+		sleep(1.13)
 		x = colors[SensorCorEsq.value()]
 		print(x)
 		if x != 'black':
@@ -100,8 +100,8 @@ def manobraextra():
 		else: #Fim de pista
 			motorDireita.run_forever(speed_sp=-150)
 			motorEsquerda.run_forever(speed_sp=0)
-			sleep(1.5)			
-			while(colors[SensorCorDir.value()] != 'black'):				
+			sleep(1.5)
+			while(colors[SensorCorDir.value()] != 'black'):
 				motorDireita.run_forever(speed_sp=-150)
 			motorEsquerda.run_forever(speed_sp=0)
 			while(colors[SensorCorDir.value()] != 'black') or (colors[SensorCorEsq.value()] != 'black'):
@@ -119,7 +119,7 @@ def manobraextra():
 	elif (colors[SensorCorEsq.value()] == 'none') or (colors[SensorCorEsq.value()] == 'black') or (colors[SensorCorEsq.value()] == 'brown'): #Tudo igual de maneira antagonica
 		motorEsquerda.run_forever(speed_sp=0) #STOP ACTION
 		motorDireita.run_forever(speed_sp=180)
-		sleep(1.2)
+		sleep(1.13)
 		x = colors[SensorCorDir.value()]
 		print(x)
 		if x != 'black':
@@ -136,8 +136,8 @@ def manobraextra():
 		else: #Fim de pista
 			motorDireita.run_forever(speed_sp=0)
 			motorEsquerda.run_forever(speed_sp=-150)
-			sleep(1.5)			
-			while(colors[SensorCorEsq.value()] != 'black'):				
+			sleep(1.5)
+			while(colors[SensorCorEsq.value()] != 'black'):
 				motorEsquerda.run_forever(speed_sp=-150)
 			motorEsquerda.run_forever(speed_sp=0)
 			while(colors[SensorCorDir.value()] != 'black') or (colors[SensorCorEsq.value()] != 'black'):
@@ -152,7 +152,7 @@ def manobraextra():
 			motorEsquerda.run_forever(speed_sp=0)
 			motorDireita.run_forever(speed_sp=0)
 
-			
+
 def alinha():
 	motorEsquerda.run_forever(speed_sp=0)
 	motorDireita.run_forever(speed_sp=0)
