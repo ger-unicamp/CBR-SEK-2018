@@ -176,14 +176,7 @@ def main(): #TESTES
 	if (colors[SensorCorDir.value()] != 'white') or (colors[SensorCorEsq.value()] != 'white'): #Condição de saída de pista
 		if (colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorEsq.value()] =='none') or (colors[SensorCorEsq.value()] == 'black'): #verificação Final da RUA
 			sleep(0.2) #Esse IF verifica se está na borda ou no fim da rua. O SLEEP é pro robô andar um pouco pra ter certeza da condição
-			if (colors[SensorCorDir.value()] == 'black') and (colors[SensorCorEsq.value()] =='black'): #Condição Fim de rua (Pós sleep)
-				print("FIM DA RUA")
-				alinha()
-				motorEsquerda.run_forever(speed_sp=0)
-				motorDireita.run_forever(speed_sp=0)
-				sleep(0.3)
-				girarRobo(180)
-			elif (colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorDir.value()] == 'brown') or (colors[SensorCorEsq.value()] =='none') or (colors[SensorCorEsq.value()] == 'black'):
+			if (colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorDir.value()] == 'brown') or (colors[SensorCorEsq.value()] =='none') or (colors[SensorCorEsq.value()] == 'black'):
 				print("BORA PRA MANOBRA") #Condição de beirada da pista
 				#manobra1()
 				manobraextra()
