@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from ev3dev.ev3 import *
 from time import sleep
-from interseccao.py import Interseccao
+from interseccao import Interseccao
 
 #variaveis globais e flags------------------------------------------------------
 colors=('none','black','blue','green','yellow','red','white','brown')
@@ -14,6 +14,7 @@ way = 1 #1 se for ida (direto) ao setido do plaza, 0 se for volta (contrario) ao
 inter = Interseccao()#interseccao
 plaza = False#flag para o plaza (esta ou nao esta no plaza)
 direcao = -1#manipular direcao na funcao interseccao
+gyro_const = 4
 
 # definicao de motores----------------------------------------------------------
 motorDireita = LargeMotor('outC')
@@ -55,12 +56,12 @@ def girarRobo(anguloDesejado):
     calibraGyro()
     anguloSensor = gyro.value()
     if(anguloDesejado > 0):
-        while(anguloSensor < anguloDesejado - 4): # 4 eh para compensar o lag de leitura do gyro
+        while(anguloSensor < anguloDesejado - gyro_const): # 4 eh para compensar o lag de leitura do gyro
             motorDireita.run_forever(speed_sp=-50)
             motorEsquerda.run_forever(speed_sp=50)
             anguloSensor = gyro.value()
     else:
-        while(anguloSensor > anguloDesejado + 4): # 4 eh para compensar o lag de leitura do gyro
+        while(anguloSensor > anguloDesejado + gyro_const): # 4 eh para compensar o lag de leitura do gyro
             motorDireita.run_forever(speed_sp=50)
             motorEsquerda.run_forever(speed_sp=-50)
             anguloSensor = gyro.value()
@@ -97,8 +98,8 @@ def andarReto():
     motorDireita.run_forever(speed_sp=200)
     motorEsquerda.run_forever(speed_sp=200)
 def volta():
-    motorDireita.run_timed(time_sp=800 speed_sp=-200)
-    motorEsquerda.run_timed(time_sp=800 speed_sp=-200)
+    motorDireita.run_timed(time_sp=800, speed_sp=-200)
+    motorEsquerda.run_timed(time_sp=800, speed_sp=-200)
     sleep(0.9)
     girarRobo(90)
     sleep(1)
@@ -257,21 +258,21 @@ def main():
             if ultrassonico() and not has_boneco and labyrinth and not plaza:
                 agarrarBoneco()#caso way == 0, a funcao troca() eh chamada dentro da funcao agarrarBoneco()
         elif (colors[SensorCorDir.value()] != 'white') or (colors[SensorCorEsq.value()] != 'white') and not plaza: #Condição de saída de pista
-    		if (colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorEsq.value()] =='none') or (colors[SensorCorEsq.value()] == 'black'):
+            if (colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorEsq.value()] =='none') or (colors[SensorCorEsq.value()] == 'black'):
                 sleep(0.2)
                 if (colors[SensorCorDir.value()] == 'black') and (colors[SensorCorEsq.value()] =='black'): #Condição Fim de rua (Pós sleep)
-    				alinha()
+                    alinha()
                     cor = 0#caso de rua sem saida: old_color recebe 0 novamente
                     volta()
                 elif (colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorDir.value()] == 'brown') or (colors[SensorCorEsq.value()] =='none') or (colors[SensorCorEsq.value()] == 'black'):
-    				manobra1()
+                    manobra1()
             elif colors[SensorCorDir.value()] != 'white' and colors[SensorCorDir.value()] != 'black' and colors[SensorCorEsq.value()] != 'white' and colors[SensorCorEsq.value()] != 'black':
                 old_color = cor #dependemos da cor anterior para saber se a direcao esta correta
                 sleep(0.2)
                 if colors[SensorCorDir.value()] != 'white' and colors[SensorCorDir.value()] != 'black' and colors[SensorCorEsq.value()] != 'white' and colors[SensorCorEsq.value()] != 'black':
                     alinha()
                     motorDireita.run_timed(time_sp=200, speed_sp=200)
-            		motorEsquerda.run_timed(time_sp=200, speed_sp=200)
+                    motorEsquerda.run_timed(time_sp=200, speed_sp=200)
                     cor = SensorCorDir.value()#NOTE: pegar de um sensor só?
                     if times < number_of_inter:
                         interseccao(old_color, cor)

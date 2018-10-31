@@ -30,17 +30,17 @@ class Interseccao:
         self.verify_dir =-1
     def acessa(self, cor):
         return self.inter['{}'.format(cor)]
-	def where_to_go(self, cor):
-		if self.iter['{}'.format(cor)] != -1:
-			return self.iter['{}'.format(cor)]
-		else:
-			if 0 not in self.inter.values():
-				if 1 in self.inter.values() and self.verify_dir!=-1:#tratar o caso 1,2,0
-					self.verify_dir = 2
-					return 1
+    def where_to_go(self, cor):
+        if self.iter['{}'.format(cor)] != -1:
+            return self.iter['{}'.format(cor)]
+        else:
+            if 0 not in self.inter.values():
+                if 1 in self.inter.values() and self.verify_dir!=-1:#tratar o caso 1,2,0
+                    self.verify_dir = 2
+                    return 1
                 self.verify_dir+=1
                 return 0
-			elif 1 not in self.inter.values() and self.verify_dir==-1:
+            elif 1 not in self.inter.values() and self.verify_dir==-1:
                 self.verify_dir+=1
                 return 1
             else:
