@@ -74,17 +74,17 @@ def main():
     btn = Button()
     calibraGyro()
     Sound.speak('Hello Humans!').wait()
-	motorDireita.run_forever(speed_sp=200)
-	motorEsquerda.run_forever(speed_sp=200)
-	sleep(0.7)
+    motorDireita.run_forever(speed_sp=200)
+    motorEsquerda.run_forever(speed_sp=200)
+    sleep(0.7)
     while not btn.any():
         distancia = ultrassonico.value()/10  # converte de mm para cm
-		print(distancia)
+        print(distancia)
         if(distancia < 20 and not has_boneco):
             motorDireita.stop(stop_action="hold")
             motorEsquerda.stop(stop_action="hold")
             sleep(0.5)
-            agarrarBoneco()
+            cagarrarBoneco()
         else:
             motorDireita.run_forever(speed_sp=200)
             motorEsquerda.run_forever(speed_sp=200)

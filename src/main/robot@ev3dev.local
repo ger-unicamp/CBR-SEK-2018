@@ -9,7 +9,7 @@ has_boneco = False #variavel de verificacao para pegar ou nao bonecos
 labyrinth = False #para saber quando ja conhecemos o laribirinto (1a vez apenas)
 #path = list() #lista com as direcoes a serem seguidas pelo trajeto (path)
 number_of_inter = 4 # na FINAL trocar por 6
-times = 1 #quantidade de interseccoes passadas, times pertence ao intervalo [0,number_of_inter]
+times = 0 #quantidade de interseccoes passadas, times pertence ao intervalo [0,number_of_inter]
 way = 1 #1 se for ida (direto) ao setido do plaza, 0 se for volta (contrario) ao sentido do plaza
 inter = Interseccao() #interseccao
 plaza = False #flag para o plaza (esta ou nao esta no plaza)
@@ -111,7 +111,7 @@ def andarReto():
     motorEsquerda.run_forever(speed_sp=200)
 
 def volta():
-    print('VOLTA')
+    print('RUA SEM SAIDA')
     motorDireita.run_timed(time_sp=800, speed_sp=-200)
     motorEsquerda.run_timed(time_sp=800, speed_sp=-200)
     sleep(0.9)
@@ -141,89 +141,66 @@ def interseccao(old_color, cor):#NOTE: tratar o caso da ultima interseccao (time
     global times
     global direcao
 
-    #motorDireita.run_timed(time_sp=1600, speed_sp=200)
-    #motorEsquerda.run_timed(time_sp=1600, speed_sp=200)
-    motorDireita.run_forever(speed_sp=150)
-    motorEsquerda.run_forever(speed_sp=150)
-    sleep(0.08)
+    motorDireita.run_timed(time_sp=1600, speed_sp=200)
+    motorEsquerda.run_timed(time_sp=1600, speed_sp=200)
 
     if labyrinth:
         direcao = inter.acessa(cor)
         if direcao == 0 and way == 1:#direita
             girarRobo(90)
-            motorDireita.run_forever(speed_sp=200)
-            motorEsquerda.run_forever(speed_sp=200)
+            motorDireita.run_timed(time_sp=3000, speed_sp=200)
+            motorEsquerda.run_timed(time_sp=3000, speed_sp=200)
             andarReto()
         elif direcao == 0 and way == 0:#esquerda
             girarRobo(-90)
-            motorDireita.run_forever(speed_sp=200)
-            motorEsquerda.run_forever(speed_sp=200)
+            motorDireita.run_timed(time_sp=3000, speed_sp=200)
+            motorEsquerda.run_timed(time_sp=3000, speed_sp=200)
             andarReto()
         elif direcao == 1:#frente
-            motorDireita.run_forever(speed_sp=200)
-            motorEsquerda.run_forever(speed_sp=200)
+            motorDireita.run_timed(time_sp=3000, speed_sp=200)
+            motorEsquerda.run_timed(time_sp=3000, speed_sp=200)
             andarReto()
         elif direcao == 2 and way == 1:#esquerda
             girarRobo(-90)
-            motorDireita.run_forever(speed_sp=200)
-            motorEsquerda.run_forever(speed_sp=200)
+            motorDireita.run_timed(time_sp=3000, speed_sp=200)
+            motorEsquerda.run_timed(time_sp=3000, speed_sp=200)
             andarReto()
         elif direcao == 2 and way == 0:#direita
             girarRobo(90)
-            motorDireita.run_forever(speed_sp=200)
-            motorEsquerda.run_forever(speed_sp=200)
+            motorDireita.run_timed(time_sp=3000, speed_sp=200)
+            motorEsquerda.run_timed(time_sp=3000, speed_sp=200)
             andarReto()
-        sleep(2)
-        if way == 1: times+=1 #sentido direto, acrescenta interseccao
+        if way == 1: times+=1#sentido direto, acrescenta interseccao
         else: times -= 1#sentido contrario, diminui interseccao
     else:#aqui so entramos na primeira vez no sentido do plaza e way sempre sera igual a 1
-        print('primeira tentativa')
         if (colors[old_color] == 'blue' or colors[old_color] == 'green' or colors[old_color] == 'red'):
-            print('push no inter' + ' ' + str(old_color))
+            print(old_color)
             inter.push(old_color, direcao)
-        
             if (times==3): # ultima interseccao
-                print('ultima interseccao')
                 direcao = inter.where_to_go(cor)
-                motorDireita.run_forever(speed_sp=200)
-                motorEsquerda.run_forever(speed_sp=200)
-                sleep(1.4)
-                motorDireita.stop(stop_action="hold")
-                motorEsquerda.stop(stop_action="hold")
                 times = 4
                 troca()
                 volta()
                 sleep(1.6)
-                times =3
                 return 
             else:
-                print('incrementar times')
                 times += 1 #atualiza as interseccoes passadas dps de ter certeza que passou
         direcao = inter.where_to_go(cor)
-        print(direcao)
         if direcao == 0:#direita
-            print('teste direita !!!!!!!!!!!!')
             girarRobo(90)
-            motorDireita.run_forever(speed_sp=200)
-            motorEsquerda.run_forever(speed_sp=200)
-            sleep(0.5)
+            motorDireita.run_timed(time_sp=3000, speed_sp=200)
+            motorEsquerda.run_timed(time_sp=3000, speed_sp=200)
             andarReto()
         elif direcao == 1:#frente
-            print('teste frente ??????????????')
-            print()
-            motorDireita.run_forever(speed_sp=200)
-            motorEsquerda.run_forever(speed_sp=200)
-            sleep(1)
+            motorDireita.run_timed(time_sp=3000, speed_sp=200)
+            motorEsquerda.run_timed(time_sp=3000, speed_sp=200)
             andarReto()
         else:#esquerda
-            print('teste esquerda ********')
             girarRobo(-90)
-            motorDireita.run_forever(speed_sp=200)
-            motorEsquerda.run_forever(speed_sp=200)
-            sleep(0.5)
+            motorDireita.run_timed(time_sp=3000, speed_sp=200)
+            motorEsquerda.run_timed(time_sp=3000, speed_sp=200)
             andarReto()
-    print(str(inter)+' inter')
-    print('times : ' + str(times))        
+    print(inter)        
     sleep(1.4)
 
 def manobra1():
@@ -330,7 +307,6 @@ def main():
             if (colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorEsq.value()] =='none') or (colors[SensorCorEsq.value()] == 'black'):
                 sleep(0.2)
                 if (colors[SensorCorDir.value()] == 'black') and (colors[SensorCorEsq.value()] =='black'): #Condição Fim de rua (Pós sleep)
-                    print('alinha - rua sem saida')
                     alinha()
                     cor = 0 #caso de rua sem saida: old_color recebe 0 novamente
                     volta()
@@ -340,7 +316,6 @@ def main():
                 old_color = cor #dependemos da cor anterior para saber se a direcao esta correta
                 sleep(0.2)
                 if colors[SensorCorDir.value()] != 'white' and colors[SensorCorDir.value()] != 'black' and colors[SensorCorEsq.value()] != 'white' and colors[SensorCorEsq.value()] != 'black':
-                    print('alinha para interseccao')
                     alinha()
                     motorDireita.run_forever(speed_sp=200)
                     motorEsquerda.run_forever(speed_sp=200)
@@ -349,12 +324,11 @@ def main():
                     sleep(0.3)
                     cor = SensorCorDir.value() #NOTE: pegar de um sensor só?
                     if times < number_of_inter:
-                        print('cor' + ' ' + str(cor)) 
-                        print('old_color' + ' ' + str(old_color))
+                        print(cor)
+                        print(old_color)
                         interseccao(old_color, cor)
-                    elif times == number_of_inter and labyrinth and has_boneco:
-                        #rampa()#TODO e NOTE: mudar flag plaza
-                        print('RAMPA')
+                    elif times == number_of_inter and labyrinth:
+                        rampa()#TODO e NOTE: mudar flag plaza
                     elif times == number_of_inter and not labyrinth:
                         troca()
                         volta()

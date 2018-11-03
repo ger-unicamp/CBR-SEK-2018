@@ -41,7 +41,7 @@ class Interseccao:
                         self.verify_dir = 2   # confirma esquerda
                         self.inter['{}'.format(cor)] = self.verify_dir
                         return 1
-                    elif 2 in self.inter.values(): # tenho frente, não tenho direita e tenho esquerda 
+                    if 2 in self.inter.values(): # tenho frente, não tenho direita e tenho esquerda 
                         self.inter['{}'.format(cor)] = 0 # confirma direita 
                         return 0
                 self.verify_dir+=1 
