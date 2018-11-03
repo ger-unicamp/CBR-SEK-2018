@@ -15,6 +15,8 @@ inter = Interseccao() #interseccao
 plaza = False #flag para o plaza (esta ou nao esta no plaza)
 direcao = -1 #manipular direcao na funcao interseccao
 gyro_const = 4
+directions_list = [-1,-1,-1]#lista ds direcoes
+ultra_distance = 25
 
 # definicao de motores----------------------------------------------------------
 motorDireita = LargeMotor('outC')
@@ -56,8 +58,7 @@ def troca():
 def ultra():
     aux = [ultrassonico.value()/10 for i in range(10)]
     aux.sort()
-    if aux[4] < 20: return True
-    else: return False
+    return aux[4]
 
 def girarRobo(anguloDesejado):
     calibraGyro()
@@ -77,34 +78,30 @@ def girarRobo(anguloDesejado):
     motorEsquerda.stop(stop_action="hold")
     calibraGyro()
 
-def captura():
+def captura(ultra_return):
     global has_boneco
-
     print('CAPTURA')
     motorDireita.run_timed(time_sp=500, speed_sp=200)
     motorEsquerda.run_timed(time_sp=500, speed_sp=200)
     sleep(2)
     girarRobo(90)
-    sleep(2)
     motorGarra.run_to_rel_pos(position_sp=290, speed_sp=100, stop_action="hold")
-    sleep(5)
+    sleep(2)
+    #TESTAR
     motorDireita.run_timed(time_sp=1400, speed_sp=200)
     motorEsquerda.run_timed(time_sp=1400, speed_sp=200)
     sleep(3)
-    motorGarra.run_to_rel_pos(position_sp=-290, speed_sp=100, stop_action="hold")#NOTE: TESTAR GARRAS
-    #de -100 a -330 a garra n subiu
+    motorGarra.run_to_rel_pos(position_sp=-290, speed_sp=100, stop_action="hold")
     sleep(5)
-    #como subir a garra?
     motorDireita.run_timed(time_sp=1400, speed_sp=-200)
     motorEsquerda.run_timed(time_sp=1400, speed_sp=-200)
     sleep(3)
     if way == 1:
         girarRobo(-90)
-    else:
+    elif way == 0:
         girarRobo(90)
         troca()
     has_boneco = True
-    calibraGyro()
 
 def andarReto():
     motorDireita.run_forever(speed_sp=200)
@@ -146,42 +143,56 @@ def interseccao(old_color, cor):#NOTE: tratar o caso da ultima interseccao (time
     sleep(0.08)
 
     if labyrinth:
-        direcao = inter.acessa(cor)
-        if direcao == 0 and way == 1:#direita
-            girarRobo(90)
-            motorDireita.run_forever(speed_sp=200)
-            motorEsquerda.run_forever(speed_sp=200)
-            andarReto()
-        elif direcao == 0 and way == 0:#esquerda
-            girarRobo(-90)
-            motorDireita.run_forever(speed_sp=200)
-            motorEsquerda.run_forever(speed_sp=200)
-            andarReto()
-        elif direcao == 1:#frente
-            motorDireita.run_forever(speed_sp=200)
-            motorEsquerda.run_forever(speed_sp=200)
-            andarReto()
-        elif direcao == 2 and way == 1:#esquerda
-            girarRobo(-90)
-            motorDireita.run_forever(speed_sp=200)
-            motorEsquerda.run_forever(speed_sp=200)
-            andarReto()
-        elif direcao == 2 and way == 0:#direita
-            girarRobo(90)
-            motorDireita.run_forever(speed_sp=200)
-            motorEsquerda.run_forever(speed_sp=200)
-            andarReto()
-        sleep(2)
         if way == 1: times+=1 #sentido direto, acrescenta interseccao
         else: times -= 1#sentido contrario, diminui interseccao
+        if times==0:
+            andarReto()
+            sleep(0.02)
+            troca()
+            volta()
+            andarReto()
+            sleep(0.03)
+            times = 1
+            sleep(0.2)
+        else:
+            direcao = inter.acessa(cor)
+            if direcao == 0 and way == 1:#direita
+                girarRobo(90)
+                motorDireita.run_forever(speed_sp=200)
+                motorEsquerda.run_forever(speed_sp=200)
+                andarReto()
+            elif direcao == 0 and way == 0:#esquerda
+                girarRobo(-90)
+                motorDireita.run_forever(speed_sp=200)
+                motorEsquerda.run_forever(speed_sp=200)
+                andarReto()
+            elif direcao == 1:#frente
+                motorDireita.run_forever(speed_sp=200)
+                motorEsquerda.run_forever(speed_sp=200)
+                andarReto()
+            elif direcao == 2 and way == 1:#esquerda
+                girarRobo(-90)
+                motorDireita.run_forever(speed_sp=200)
+                motorEsquerda.run_forever(speed_sp=200)
+                andarReto()
+            elif direcao == 2 and way == 0:#direita
+                girarRobo(90)
+                motorDireita.run_forever(speed_sp=200)
+                motorEsquerda.run_forever(speed_sp=200)
+                andarReto()
+        sleep(2)
     else:#aqui so entramos na primeira vez no sentido do plaza e way sempre sera igual a 1
-        print('Cor anterior (old_color): '+str(old_color))
         if (colors[old_color] == 'blue' or colors[old_color] == 'green' or colors[old_color] == 'red'):
             print('push no inter' + ' ' + str(old_color))
             inter.push(old_color, direcao)
+            directions_list[inter.acessa(old_color)] = -2
+            print(str(directions_list) + ' directions_list')
             if (times==number_of_inter-1): # ultima interseccao
-                print('ultima interseccao')
-                direcao = inter.where_to_go(cor)
+                print('ultima interseccao e push no color')
+                if directions_list.count(-1) == 1:
+                    print('ultima direcao no push ' + str(directions_list.index(-1))+ ' cor enviada: ' + str(cor))
+                    inter.push(cor, directions_list.index(-1))
+                    directions_list[directions_list.index(-1)] = -2
                 motorDireita.run_forever(speed_sp=200)
                 motorEsquerda.run_forever(speed_sp=200)
                 sleep(1.4)
@@ -194,26 +205,21 @@ def interseccao(old_color, cor):#NOTE: tratar o caso da ultima interseccao (time
                 times = number_of_inter - 1
                 return 
             else:
-                print('incrementar times')
                 times += 1 #atualiza as interseccoes passadas dps de ter certeza que passou
         direcao = inter.where_to_go(cor)
         print('direcao escolhida: '+str(direcao))
         if direcao == 0:#direita
-            print('teste direita !!!!!!!!!!!!')
             girarRobo(90)
             motorDireita.run_forever(speed_sp=200)
             motorEsquerda.run_forever(speed_sp=200)
             sleep(0.5)
             andarReto()
         elif direcao == 1:#frente
-            print('teste frente ??????????????')
-            print()
             motorDireita.run_forever(speed_sp=200)
             motorEsquerda.run_forever(speed_sp=200)
             sleep(1)
             andarReto()
         else:#esquerda
-            print('teste esquerda ********')
             girarRobo(-90)
             motorDireita.run_forever(speed_sp=200)
             motorEsquerda.run_forever(speed_sp=200)
@@ -227,13 +233,11 @@ def manobra1():
     print("ENTREI NA MANOBRA!! ")
     motorDireita.run_forever(speed_sp=0) #Para o robo para executar a manobra
     motorEsquerda.run_forever(speed_sp=0) #STOP ACTION
-    
     if(colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorDir.value()] == 'brown'): #confere se o sensor direito está fora da pista
         motorDireita.run_forever(speed_sp=0) #STOP ACTION
         motorEsquerda.run_forever(speed_sp=180) #Gira roda esquerda
         sleep(1.13)
         x = colors[SensorCorEsq.value()]
-        print(str(x) + ' sensor esquerdo')
         if x != 'black':
             while(colors[SensorCorEsq.value()] == x):
                 #print("RODANDO PARA A DIREITA")
@@ -271,7 +275,6 @@ def manobra1():
         motorDireita.run_forever(speed_sp=180)
         sleep(1.13)
         x = colors[SensorCorDir.value()]
-        print(str(x) + ' sensor direito')
         if x != 'black':
             while(colors[SensorCorDir.value()] == x):
                 #print("RODANDO PARA A ESQUEDA")
@@ -318,16 +321,17 @@ def main():
     cor = 0 #none
     Sound.speak('Hello Humans!').wait()
     print(ultrassonico.value())
+    global ultra_distance
     while not btn.any():
         if colors[SensorCorDir.value()] == 'white' and colors[SensorCorEsq.value()] == 'white':
             andarReto()
-            if ultra() and not has_boneco and labyrinth and not plaza:
-                captura()#caso way == 0, a funcao troca() eh chamada dentro da funcao agarrarBoneco()
+            ultra_return = ultra()
+            if ultra_return < ultra_distance and not has_boneco and labyrinth and not plaza:
+                captura(ultra_return)#caso way == 0, a funcao troca() eh chamada dentro da funcao agarrarBoneco()
         elif (colors[SensorCorDir.value()] != 'white') or (colors[SensorCorEsq.value()] != 'white') and not plaza: #Condição de saída de pista
             if (colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorEsq.value()] =='none') or (colors[SensorCorEsq.value()] == 'black'):
                 sleep(0.2)
                 if (colors[SensorCorDir.value()] == 'black') and (colors[SensorCorEsq.value()] =='black'): #Condição Fim de rua (Pós sleep)
-                    print('alinha - rua sem saida')
                     alinha()
                     cor = 0 #caso de rua sem saida: old_color recebe 0 novamente
                     volta()
@@ -337,7 +341,6 @@ def main():
                 old_color = cor #dependemos da cor anterior para saber se a direcao esta correta
                 sleep(0.2)
                 if colors[SensorCorDir.value()] != 'white' and colors[SensorCorDir.value()] != 'black' and colors[SensorCorEsq.value()] != 'white' and colors[SensorCorEsq.value()] != 'black':
-                    print('alinha para interseccao')
                     alinha()
                     motorDireita.run_forever(speed_sp=200)
                     motorEsquerda.run_forever(speed_sp=200)
@@ -346,8 +349,6 @@ def main():
                     sleep(0.3)
                     cor = SensorCorDir.value() #NOTE: pegar de um sensor só?
                     if times < number_of_inter:
-                        print('cor' + ' ' + str(cor)) 
-                        print('old_color' + ' ' + str(old_color))
                         interseccao(old_color, cor)
                     elif times == number_of_inter and labyrinth and has_boneco:
                         #rampa()#TODO e NOTE: mudar flag plaza

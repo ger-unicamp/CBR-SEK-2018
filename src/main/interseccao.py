@@ -23,7 +23,9 @@ class Interseccao:
     def push(self, cor, direcao):
         if(self.inter['{}'.format(cor)] == -1):
             if(direcao==0):
-                self.inter['{}'.format(cor)]=self.verify_dir
+                print('verify dir na direcao == 0: '+str(self.verify_dir))
+                if self.verify_dir == -1: self.inter['{}'.format(cor)] = direcao
+                else: self.inter['{}'.format(cor)]=self.verify_dir
             elif direcao == 1 and self.verify_dir == 2:
                 self.inter['{}'.format(cor)] = self.verify_dir
             else:
@@ -36,17 +38,17 @@ class Interseccao:
             return self.inter['{}'.format(cor)]
         else:
             if 0 not in self.inter.values():  # não tenho direita
-                if 1 in self.inter.values():  #tratar o caso 1,2,0 - tenho frente 
-                    if self.verify_dir !=-1:  # só resta esquerda  
+                if 1 in self.inter.values():  #tratar o caso 1,2,0 - tenho frente
+                    if self.verify_dir !=-1:  # só resta esquerda
                         self.verify_dir = 2   # confirma esquerda
                         self.inter['{}'.format(cor)] = self.verify_dir
                         return 1
-                    if 2 in self.inter.values(): # tenho frente, não tenho direita e tenho esquerda 
-                        self.inter['{}'.format(cor)] = 0 # confirma direita 
+                    if 2 in self.inter.values(): # tenho frente, não tenho direita e tenho esquerda
+                        self.inter['{}'.format(cor)] = 0 # confirma direita
                         return 0
-                self.verify_dir+=1 
+                self.verify_dir+=1
                 return 0
-            elif 1 not in self.inter.values() and self.verify_dir==-1: # tenho direita e não tenho frente e primeira tentativa 
+            elif 1 not in self.inter.values() and self.verify_dir==-1: # tenho direita e não tenho frente e primeira tentativa
                 if 2 in self.inter.values(): # já tenho direita e esquerda
                     self.inter['{}'.format(cor)] = 1 # confirma frente
                     return 1

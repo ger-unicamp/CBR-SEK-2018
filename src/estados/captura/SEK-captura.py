@@ -48,24 +48,30 @@ def girarRobo(anguloDesejado):
     motorEsquerda.stop(stop_action="hold")
     calibraGyro()
 
-def agarrarBoneco():
+def agarrarBoneco(distancia):
+    global has_boneco
     motorDireita.run_timed(time_sp=500, speed_sp=200)
     motorEsquerda.run_timed(time_sp=500, speed_sp=200)
     sleep(2)
     girarRobo(90)
-    sleep(2)
     motorGarra.run_to_rel_pos(position_sp=290, speed_sp=100, stop_action="hold")
-    sleep(5)
-    motorDireita.run_timed(time_sp=1400, speed_sp=200)
-    motorEsquerda.run_timed(time_sp=1400, speed_sp=200)
-    sleep(3)
+    sleep(2)
+    motorDireita.run_forever(speed_sp=170)
+    motorEsquerda.run_forever(speed_sp=170)
+    sleep(distancia/10)
+    motorDireita.stop(stop_action="hold")
+    motorEsquerda.stop(stop_action="hold")
     motorGarra.run_to_rel_pos(position_sp=-290, speed_sp=100, stop_action="hold")
     #de -100 a -330 a garra n subiu
-    sleep(5)
+    sleep(1)
     #como subir a garra?
-    motorDireita.run_timed(time_sp=1400, speed_sp=-200)
-    motorEsquerda.run_timed(time_sp=1400, speed_sp=-200)
-    sleep(3)
+    # motorDireita.run_timed(time_sp=1400, speed_sp=-200)
+    # motorEsquerda.run_timed(time_sp=1400, speed_sp=-200)
+    motorDireita.run_forever(speed_sp=-170)
+    motorEsquerda.run_forever(speed_sp=-170)
+    sleep(distancia/10)
+    motorDireita.stop(stop_action="hold")
+    motorEsquerda.stop(stop_action="hold")
     girarRobo(-90)
     has_boneco = True
     calibraGyro()
@@ -74,20 +80,27 @@ def main():
     btn = Button()
     calibraGyro()
     Sound.speak('Hello Humans!').wait()
-    motorDireita.run_forever(speed_sp=200)
-    motorEsquerda.run_forever(speed_sp=200)
+    motorGarra.run_to_rel_pos(position_sp=190, speed_sp=100, stop_action="hold")
+    sleep(2)
+    # motorGarra.run_to_rel_pos(position_sp=-200, speed_sp=100, stop_action="hold")
+    sleep(2)
+    # motorDireita.run_forever(speed_sp=150)
+    # motorEsquerda.run_forever(speed_sp=150)
     sleep(0.7)
-    while not btn.any():
-        distancia = ultrassonico.value()/10  # converte de mm para cm
-        print(distancia)
-        if(distancia < 20 and not has_boneco):
-            motorDireita.stop(stop_action="hold")
-            motorEsquerda.stop(stop_action="hold")
-            sleep(0.5)
-            cagarrarBoneco()
-        else:
-            motorDireita.run_forever(speed_sp=200)
-            motorEsquerda.run_forever(speed_sp=200)
+    global has_boneco
+    # while not btn.any():
+    #     distancia = [ultrassonico.value()/10 for i in range(10)]# converte de mm para cm
+    #     distancia.sort()
+    #     if(distancia[4] < 25 and not has_boneco):
+    #         print('distancia lida pelo ultrassonico: {}'.format(distancia[4]))
+    #         motorDireita.stop(stop_action="hold")
+    #         motorEsquerda.stop(stop_action="hold")
+    #         sleep(0.5)
+    #         agarrarBoneco(distancia[4])
+    #         break
+    #     else:
+    #         motorDireita.run_forever(speed_sp=200)
+    #         motorEsquerda.run_forever(speed_sp=200)
     motorDireita.stop(stop_action="hold")
     motorEsquerda.stop(stop_action="hold")
 
