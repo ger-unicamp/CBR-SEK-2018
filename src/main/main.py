@@ -114,9 +114,7 @@ def volta():
     print('VOLTA')
     motorDireita.run_timed(time_sp=800, speed_sp=-200)
     motorEsquerda.run_timed(time_sp=800, speed_sp=-200)
-    sleep(0.9)
     girarRobo(90)
-    sleep(0.2)
     girarRobo(90)
     andarReto()
 
