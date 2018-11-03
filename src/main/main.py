@@ -182,7 +182,7 @@ def interseccao(old_color, cor):#NOTE: tratar o caso da ultima interseccao (time
             print('push no inter' + ' ' + str(old_color))
             inter.push(old_color, direcao)
         
-            if (times==3): # ultima interseccao
+            if (times==number_of_inter-1): # ultima interseccao
                 print('ultima interseccao')
                 direcao = inter.where_to_go(cor)
                 motorDireita.run_forever(speed_sp=200)
@@ -190,11 +190,11 @@ def interseccao(old_color, cor):#NOTE: tratar o caso da ultima interseccao (time
                 sleep(1.4)
                 motorDireita.stop(stop_action="hold")
                 motorEsquerda.stop(stop_action="hold")
-                times = 4
+                times = number_of_inter
                 troca()
                 volta()
                 sleep(1.6)
-                times =3
+                times = number_of_inter - 1
                 return 
             else:
                 print('incrementar times')
