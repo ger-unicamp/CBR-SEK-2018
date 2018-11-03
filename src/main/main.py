@@ -175,11 +175,10 @@ def interseccao(old_color, cor):#NOTE: tratar o caso da ultima interseccao (time
         if way == 1: times+=1 #sentido direto, acrescenta interseccao
         else: times -= 1#sentido contrario, diminui interseccao
     else:#aqui so entramos na primeira vez no sentido do plaza e way sempre sera igual a 1
-        print('primeira tentativa')
+        print('Cor anterior (old_color): '+str(old_color))
         if (colors[old_color] == 'blue' or colors[old_color] == 'green' or colors[old_color] == 'red'):
             print('push no inter' + ' ' + str(old_color))
             inter.push(old_color, direcao)
-        
             if (times==number_of_inter-1): # ultima interseccao
                 print('ultima interseccao')
                 direcao = inter.where_to_go(cor)
@@ -198,7 +197,7 @@ def interseccao(old_color, cor):#NOTE: tratar o caso da ultima interseccao (time
                 print('incrementar times')
                 times += 1 #atualiza as interseccoes passadas dps de ter certeza que passou
         direcao = inter.where_to_go(cor)
-        print(direcao)
+        print('direcao escolhida: '+str(direcao))
         if direcao == 0:#direita
             print('teste direita !!!!!!!!!!!!')
             girarRobo(90)
@@ -221,7 +220,7 @@ def interseccao(old_color, cor):#NOTE: tratar o caso da ultima interseccao (time
             sleep(0.5)
             andarReto()
     print(str(inter)+' inter')
-    print('times : ' + str(times))        
+    print('times : ' + str(times))
     sleep(1.4)
 
 def manobra1():
