@@ -2,13 +2,16 @@
 from ev3dev.ev3 import *
 from time import sleep
 from interseccao import Interseccao
+import plaza
+
+
 
 #variaveis globais e flags------------------------------------------------------
 colors=('none','black','blue','green','yellow','red','white','brown')
 has_boneco = False #variavel de verificacao para pegar ou nao bonecos
 labyrinth = False #para saber quando ja conhecemos o laribirinto (1a vez apenas)
 #path = list() #lista com as direcoes a serem seguidas pelo trajeto (path)
-number_of_inter = 4 # na FINAL trocar por 6
+number_of_inter = 6 # na FINAL trocar por 6
 times = 1 #quantidade de interseccoes passadas, times pertence ao intervalo [0,number_of_inter]
 way = 1 #1 se for ida (direto) ao setido do plaza, 0 se for volta (contrario) ao sentido do plaza
 inter = Interseccao() #interseccao
@@ -16,7 +19,7 @@ plaza = False #flag para o plaza (esta ou nao esta no plaza)
 direcao = -1 #manipular direcao na funcao interseccao
 gyro_const = 4
 directions_list = [-1,-1,-1]#lista ds direcoes
-ultra_distance = 25
+ultra_distance = 35
 
 # definicao de motores----------------------------------------------------------
 motorDireita = LargeMotor('outC')
@@ -42,9 +45,9 @@ assert gyro.connected, "Giroscopio nao conectado"
 #funcoes (e estados) -------------------------------------------------------------
 def calibraGyro():
     gyro.mode = 'GYRO-RATE'
-    sleep(1)
+    sleep(0.3)
     gyro.mode = 'GYRO-ANG'
-    sleep(1)
+    sleep(0.3)
 
 def troca():
     global way
@@ -65,13 +68,13 @@ def girarRobo(anguloDesejado):
     anguloSensor = gyro.value()
     if(anguloDesejado > 0):
         while(anguloSensor < anguloDesejado - gyro_const): # 4 eh para compensar o lag de leitura do gyro
-            motorDireita.run_forever(speed_sp=-150)
-            motorEsquerda.run_forever(speed_sp=150)
+            motorDireita.run_forever(speed_sp=-200)
+            motorEsquerda.run_forever(speed_sp=200)
             anguloSensor = gyro.value()
     else:
         while(anguloSensor > anguloDesejado + gyro_const): # 4 eh para compensar o lag de leitura do gyro
-            motorDireita.run_forever(speed_sp=150)
-            motorEsquerda.run_forever(speed_sp=-150)
+            motorDireita.run_forever(speed_sp=200)
+            motorEsquerda.run_forever(speed_sp=-200)
             anguloSensor = gyro.value()
 
     motorDireita.stop(stop_action="hold")
@@ -81,21 +84,23 @@ def girarRobo(anguloDesejado):
 def captura(ultra_return):
     global has_boneco
     print('CAPTURA')
-    motorDireita.run_timed(time_sp=500, speed_sp=200)
-    motorEsquerda.run_timed(time_sp=500, speed_sp=200)
-    sleep(2)
+    motorDireita.run_timed(time_sp=800, speed_sp=200)
+    motorEsquerda.run_timed(time_sp=800, speed_sp=200)
+    sleep(1)
     girarRobo(90)
-    motorGarra.run_to_rel_pos(position_sp=290, speed_sp=100, stop_action="hold")
+  #  motorGarra.run_to_rel_pos(position_sp=290, speed_sp=100, stop_action="hold")
     sleep(2)
     #TESTAR
-    motorDireita.run_timed(time_sp=1400, speed_sp=200)
-    motorEsquerda.run_timed(time_sp=1400, speed_sp=200)
-    sleep(3)
+    motorDireita.run_forever(speed_sp=170)
+    motorEsquerda.run_forever(speed_sp=170)
+    sleep(ultra_return/13)
+    motorDireita.stop(stop_action = 'hold')
+    motorEsquerda.stop(stop_action = 'hold')
     motorGarra.run_to_rel_pos(position_sp=-290, speed_sp=100, stop_action="hold")
-    sleep(5)
-    motorDireita.run_timed(time_sp=1400, speed_sp=-200)
-    motorEsquerda.run_timed(time_sp=1400, speed_sp=-200)
-    sleep(3)
+    sleep(2)
+    motorDireita.run_forever(speed_sp=-170)
+    motorEsquerda.run_forever(speed_sp=-170)
+    sleep(ultra_return/13)
     if way == 1:
         girarRobo(-90)
     elif way == 0:
@@ -105,7 +110,7 @@ def captura(ultra_return):
 
 def andarReto():
     motorDireita.run_forever(speed_sp=200)
-    motorEsquerda.run_forever(speed_sp=200)
+    motorEsquerda.run_forever(speed_sp=198)
 
 def volta():
     print('VOLTA')
@@ -115,17 +120,17 @@ def volta():
     girarRobo(90)
     andarReto()
 
-def alinha():
+def alinha(sentido):
     print('ALINHA')
     motorEsquerda.run_forever(speed_sp=0)
     motorDireita.run_forever(speed_sp=0)
     while(colors[SensorCorDir.value()] != 'white') or (colors[SensorCorEsq.value()] != 'white'):
         if(colors[SensorCorDir.value()] != 'white'): #Enquanto os dois não estiverem fora da interssecção ou fora do fim de pista, alinha os dois sensores
-            motorDireita.run_forever(speed_sp=-100) #em branco
+            motorDireita.run_forever(speed_sp=-100*sentido) #em branco
         else:
             motorDireita.run_forever(speed_sp=0)
         if(colors[SensorCorEsq.value()] != 'white'):
-            motorEsquerda.run_forever(speed_sp=-100)
+            motorEsquerda.run_forever(speed_sp=-100*sentido)
         else:
             motorEsquerda.run_forever(speed_sp=0)
     motorEsquerda.run_forever(speed_sp=0)
@@ -138,9 +143,9 @@ def interseccao(old_color, cor):#NOTE: tratar o caso da ultima interseccao (time
 
     #motorDireita.run_timed(time_sp=1600, speed_sp=200)
     #motorEsquerda.run_timed(time_sp=1600, speed_sp=200)
-    motorDireita.run_forever(speed_sp=150)
-    motorEsquerda.run_forever(speed_sp=150)
-    sleep(0.08)
+    motorDireita.run_forever(speed_sp=200)
+    motorEsquerda.run_forever(speed_sp=200)
+    sleep(0.85)
 
     if labyrinth:
         if way == 1: times+=1 #sentido direto, acrescenta interseccao
@@ -158,25 +163,30 @@ def interseccao(old_color, cor):#NOTE: tratar o caso da ultima interseccao (time
             direcao = inter.acessa(cor)
             if direcao == 0 and way == 1:#direita
                 girarRobo(90)
+                alinha(-1)
                 motorDireita.run_forever(speed_sp=200)
                 motorEsquerda.run_forever(speed_sp=200)
                 andarReto()
             elif direcao == 0 and way == 0:#esquerda
                 girarRobo(-90)
+                alinha(-1)
                 motorDireita.run_forever(speed_sp=200)
                 motorEsquerda.run_forever(speed_sp=200)
                 andarReto()
             elif direcao == 1:#frente
+                alinha(-1)
                 motorDireita.run_forever(speed_sp=200)
                 motorEsquerda.run_forever(speed_sp=200)
                 andarReto()
             elif direcao == 2 and way == 1:#esquerda
                 girarRobo(-90)
+                alinha(-1)
                 motorDireita.run_forever(speed_sp=200)
                 motorEsquerda.run_forever(speed_sp=200)
                 andarReto()
             elif direcao == 2 and way == 0:#direita
                 girarRobo(90)
+                alinha(-1)
                 motorDireita.run_forever(speed_sp=200)
                 motorEsquerda.run_forever(speed_sp=200)
                 andarReto()
@@ -210,17 +220,20 @@ def interseccao(old_color, cor):#NOTE: tratar o caso da ultima interseccao (time
         print('direcao escolhida: '+str(direcao))
         if direcao == 0:#direita
             girarRobo(90)
+            alinha(-1)
             motorDireita.run_forever(speed_sp=200)
             motorEsquerda.run_forever(speed_sp=200)
             sleep(0.5)
             andarReto()
         elif direcao == 1:#frente
+            alinha(-1)
             motorDireita.run_forever(speed_sp=200)
             motorEsquerda.run_forever(speed_sp=200)
             sleep(1)
             andarReto()
         else:#esquerda
             girarRobo(-90)
+            alinha(-1) 
             motorDireita.run_forever(speed_sp=200)
             motorEsquerda.run_forever(speed_sp=200)
             sleep(0.5)
@@ -308,18 +321,35 @@ def manobra1():
             motorDireita.run_forever(speed_sp=0)
         '''
 
+def plaza():
+    global plaza
+    global times
+    
+    plaza = True 
+    times = 7
+    alinha(1)
+    motorEsquerda.run_forever(speed_sp=200)
+    motorDireita.run_forever(speed_sp=200)
+    sleep(2.5)
+    print('vou entrar no plaza')
+    plaza.plaza()
+
+
+
 
 #funcao main -------------------------------------------------------------------
 def main():
     global has_boneco
     global plaza
     global labyrinth
+    global times
  
 
     btn = Button()
     calibraGyro()
     cor = 0 #none
     Sound.speak('Hello Humans!').wait()
+    motorGarra.run_to_rel_pos(position_sp=290, speed_sp=100, stop_action="hold") # abrir garra
     print(ultrassonico.value())
     global ultra_distance
     while not btn.any():
@@ -332,7 +362,7 @@ def main():
             if (colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorEsq.value()] =='none') or (colors[SensorCorEsq.value()] == 'black'):
                 sleep(0.2)
                 if (colors[SensorCorDir.value()] == 'black') and (colors[SensorCorEsq.value()] =='black'): #Condição Fim de rua (Pós sleep)
-                    alinha()
+                    alinha(1)
                     cor = 0 #caso de rua sem saida: old_color recebe 0 novamente
                     volta()
                 elif (colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorDir.value()] == 'brown') or (colors[SensorCorEsq.value()] =='none') or (colors[SensorCorEsq.value()] == 'black'):
@@ -341,18 +371,24 @@ def main():
                 old_color = cor #dependemos da cor anterior para saber se a direcao esta correta
                 sleep(0.2)
                 if colors[SensorCorDir.value()] != 'white' and colors[SensorCorDir.value()] != 'black' and colors[SensorCorEsq.value()] != 'white' and colors[SensorCorEsq.value()] != 'black':
-                    alinha()
+                    alinha(1)
                     motorDireita.run_forever(speed_sp=200)
                     motorEsquerda.run_forever(speed_sp=200)
                     #motorDireita.run_timed(time_sp=1000, speed_sp=200)
                     #motorEsquerda.run_timed(time_sp=1000, speed_sp=200)
                     sleep(0.3)
                     cor = SensorCorDir.value() #NOTE: pegar de um sensor só?
-                    if times < number_of_inter:
+                    if times < number_of_inter+1:
                         interseccao(old_color, cor)
                     elif times == number_of_inter and labyrinth and has_boneco:
-                        #rampa()#TODO e NOTE: mudar flag plaza
-                        print('RAMPA')
+                        #plaza()#TODO e NOTE: mudar flag plaza
+                        if(plaza == True):
+                            alinha(1)
+                            sleep(0.8) # passar pelas três faixas
+                            plaza = False 
+                            times = 6
+                        else:
+                            plaza()
                     elif times == number_of_inter and not labyrinth:
                         troca()
                         volta()
