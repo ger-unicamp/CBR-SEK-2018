@@ -217,34 +217,7 @@ def interseccao(old_color, cor):#NOTE: tratar o caso da ultima interseccao (time
                 times = number_of_inter - 1
                 return 
             else:
-                times += 1 #atualiza as interseccoes passadas dps de ter certeza que passou
-        direcao = inter.where_to_go(cor)
-        print('direcao escolhida: '+str(direcao))
-        if direcao == 0:#direita
-            girarRobo(90)
-            alinha(-1)
-            motorDireita.run_forever(speed_sp=200)
-            motorEsquerda.run_forever(speed_sp=200)
-            sleep(0.5)
-            andarReto()
-        elif direcao == 1:#frente
-            alinha(-1)
-            motorDireita.run_forever(speed_sp=200)
-            motorEsquerda.run_forever(speed_sp=200)
-            sleep(1)
-            andarReto()
-        else:#esquerda
-            girarRobo(-90)
-            alinha(-1)
-            motorDireita.run_forever(speed_sp=200)
-            motorEsquerda.run_forever(speed_sp=200)
-            sleep(0.5)
-            andarReto()
-    print(str(inter)+' inter')
-    print('times : ' + str(times))
-    sleep(1.4)
-
-def manobra1():
+                times += 1 #atualiza as interseccoes passadas dps de ter certeza que passoudef manobra1():
     print("ENTREI NA MANOBRA!! ")
     print('na manobra direita ' + str(colors[SensorCorDir.value()]))
     print('na manobra esquerda ' + str(colors[SensorCorEsq.value()]))
@@ -324,6 +297,43 @@ def manobra1():
             motorEsquerda.run_forever(speed_sp=0)
             motorDireita.run_forever(speed_sp=0)
         '''
+        direcao = inter.where_to_go(cor)
+        print('direcao escolhida: '+str(direcao))
+        if direcao == 0:#direita
+            girarRobo(90)
+            alinha(-1)
+            motorDireita.run_forever(speed_sp=200)
+            motorEsquerda.run_forever(speed_sp=200)
+            sleep(0.5)
+            andarReto()
+        elif direcao == 1:#frente
+            alinha(-1)
+            motorDireita.run_forever(speed_sp=200)
+            motorEsquerda.run_forever(speed_sp=200)
+            sleep(1)
+            andarReto()
+        else:#esquerda
+            girarRobo(-90)
+            alinha(-1)
+            motorDireita.run_forever(speed_sp=200)
+            motorEsquerda.run_forever(speed_sp=200)
+            sleep(0.5)
+            andarReto()
+    print(str(inter)+' inter')
+    print('times : ' + str(times))
+    sleep(1.4)
+
+def manobra1():
+    print("ENTREI NA MANOBRA!! ")
+    motorEsquerda.stop(stop_action='hold')
+    motorDireita.stop(stop_action='hold')
+    booleano =  colors[SensorCorDir.value()] in non_valid_color
+    motorEsquerda.run_timed(time_sp=500, speed_sp=-200)
+    motorDireita.run_timed(time_sp=500, speed_sp=-200)
+    if booleano:
+        girarRobo(-20)
+    elif not booleano:
+        girarRobo(20)
 
 def plaza():
     global plaza
