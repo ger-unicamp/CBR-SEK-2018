@@ -15,11 +15,13 @@ number_of_inter = 6 # na FINAL trocar por 6
 times = 1 #quantidade de interseccoes passadas, times pertence ao intervalo [0,number_of_inter]
 way = 1 #1 se for ida (direto) ao setido do plaza, 0 se for volta (contrario) ao sentido do plaza
 inter = Interseccao() #interseccao
-plaza = False #flag para o plaza (esta ou nao esta no plaza)
+plaza_sentido = False #flag para o plaza (esta ou nao esta no plaza)
 direcao = -1 #manipular direcao na funcao interseccao
 gyro_const = 4
 directions_list = [-1,-1,-1]#lista ds direcoes
 ultra_distance = 35
+cor_inter = ('blue', 'green', 'red')
+cor_invalid = ('none', 'borwn', 'black')
 
 # definicao de motores----------------------------------------------------------
 motorDireita = LargeMotor('outC')
@@ -110,7 +112,7 @@ def captura(ultra_return):
 
 def andarReto():
     motorDireita.run_forever(speed_sp=200)
-    motorEsquerda.run_forever(speed_sp=198)
+    motorEsquerda.run_forever(speed_sp=200)
 
 def volta():
     print('VOLTA')
@@ -143,8 +145,8 @@ def interseccao(old_color, cor):#NOTE: tratar o caso da ultima interseccao (time
 
     #motorDireita.run_timed(time_sp=1600, speed_sp=200)
     #motorEsquerda.run_timed(time_sp=1600, speed_sp=200)
-    motorDireita.run_forever(speed_sp=200)
-    motorEsquerda.run_forever(speed_sp=200)
+    motorDireita.run_forever(speed_sp=150)
+    motorEsquerda.run_forever(speed_sp=150)
     sleep(0.85)
 
     if labyrinth:
@@ -199,7 +201,7 @@ def interseccao(old_color, cor):#NOTE: tratar o caso da ultima interseccao (time
             print(str(directions_list) + ' directions_list')
             if (times==number_of_inter-1): # ultima interseccao
                 print('ultima interseccao e push no color')
-                if directions_list.count(-1) == 1:
+                if directions_list.count(-1) == 1: #TODO
                     print('ultima direcao no push ' + str(directions_list.index(-1))+ ' cor enviada: ' + str(cor))
                     inter.push(cor, directions_list.index(-1))
                     directions_list[directions_list.index(-1)] = -2
@@ -215,7 +217,7 @@ def interseccao(old_color, cor):#NOTE: tratar o caso da ultima interseccao (time
                 times = number_of_inter - 1
                 return 
             else:
-                times += 1 #atualiza as interseccoes passadas dps de ter certeza que passou
+                times += 1 #atualiza as interseccoes passadas dps de ter certeza que passoudef manobra1():
         direcao = inter.where_to_go(cor)
         print('direcao escolhida: '+str(direcao))
         if direcao == 0:#direita
@@ -233,7 +235,7 @@ def interseccao(old_color, cor):#NOTE: tratar o caso da ultima interseccao (time
             andarReto()
         else:#esquerda
             girarRobo(-90)
-            alinha(-1) 
+            alinha(-1)
             motorDireita.run_forever(speed_sp=200)
             motorEsquerda.run_forever(speed_sp=200)
             sleep(0.5)
@@ -244,88 +246,25 @@ def interseccao(old_color, cor):#NOTE: tratar o caso da ultima interseccao (time
 
 def manobra1():
     print("ENTREI NA MANOBRA!! ")
-    motorDireita.run_forever(speed_sp=0) #Para o robo para executar a manobra
-    motorEsquerda.run_forever(speed_sp=0) #STOP ACTION
-    if(colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorDir.value()] == 'brown'): #confere se o sensor direito está fora da pista
-        motorDireita.run_forever(speed_sp=0) #STOP ACTION
-        motorEsquerda.run_forever(speed_sp=180) #Gira roda esquerda
-        sleep(1.13)
-        x = colors[SensorCorEsq.value()]
-        if x != 'black':
-            while(colors[SensorCorEsq.value()] == x):
-                #print("RODANDO PARA A DIREITA")
-                motorDireita.run_forever(speed_sp=0) #STOP ACTION
-                motorEsquerda.run_forever(speed_sp=180) #Gira roda esquerda
-            sleep(0.1)
-            motorEsquerda.run_forever(speed_sp=0) #Para o robo na beirada da pista #STOP ACTION
-            sleep(1)
-            motorDireita.run_timed(time_sp=1100, speed_sp=-200) #Retorna ao meio da pista
-            motorEsquerda.run_timed(time_sp=1100, speed_sp=-200)
-            girarRobo(-90) #Gira para voltar ao percurso
-        '''
-        else: #Fim de pista
-            print('MANOBRA FIM DE PISTA -- SENSOR DIREITO FORA')
-            motorDireita.run_forever(speed_sp=-150)
-            motorEsquerda.run_forever(speed_sp=0)
-            sleep(1.5)
-            while(colors[SensorCorDir.value()] != 'black'):
-                motorDireita.run_forever(speed_sp=-150)
-                motorEsquerda.run_forever(speed_sp=0)
-            while(colors[SensorCorDir.value()] != 'black') or (colors[SensorCorEsq.value()] != 'black'):
-                if(colors[SensorCorDir.value()] != 'black'): #Enquanto os dois não estiverem fora da interssecção ou fora do fim de pista, alinha os dois sensores
-                    motorDireita.run_forever(speed_sp=-150) #em branco
-                else:
-                    motorDireita.run_forever(speed_sp=0)
-                if(colors[SensorCorEsq.value()] != 'black'):
-                    motorEsquerda.run_forever(speed_sp=-150)
-                else:
-                    motorEsquerda.run_forever(speed_sp=0)
-            motorEsquerda.run_forever(speed_sp=0)
-            motorDireita.run_forever(speed_sp=0)
-        '''
-    elif(colors[SensorCorEsq.value()] == 'none') or (colors[SensorCorEsq.value()] == 'black') or (colors[SensorCorEsq.value()] == 'brown'): #Tudo igual de maneira antagonica
-        motorEsquerda.run_forever(speed_sp=0) #STOP ACTION
-        motorDireita.run_forever(speed_sp=180)
-        sleep(1.13)
-        x = colors[SensorCorDir.value()]
-        if x != 'black':
-            while(colors[SensorCorDir.value()] == x):
-                #print("RODANDO PARA A ESQUEDA")
-                motorEsquerda.run_forever(speed_sp=0) #STOP ACTION
-                motorDireita.run_forever(speed_sp=180)
-            sleep(0.1)
-            motorDireita.run_forever(speed_sp=0) #STOP ACTION
-            sleep(1)
-            motorDireita.run_timed(time_sp=1100, speed_sp=-200)
-            motorEsquerda.run_timed(time_sp=1100, speed_sp=-200)
-            girarRobo(90)
-        '''
-        else: #Fim de pista
-            print('MANOBRA FIM DE PISTA -- SENSOR ESQUERDO FORA')
-            motorDireita.run_forever(speed_sp=0)
-            motorEsquerda.run_forever(speed_sp=-150)
-            sleep(1.5)
-            while(colors[SensorCorEsq.value()] != 'black'):
-                motorEsquerda.run_forever(speed_sp=-150)
-            motorEsquerda.run_forever(speed_sp=0)
-            while(colors[SensorCorDir.value()] != 'black') or (colors[SensorCorEsq.value()] != 'black'):
-                if(colors[SensorCorDir.value()] != 'black'): #Enquanto os dois não estiverem fora da interssecção ou fora do fim de pista, alinha os dois sensores
-                    motorDireita.run_forever(speed_sp=-150) #em branco
-                else:
-                    motorDireita.run_forever(speed_sp=0)
-                if(colors[SensorCorEsq.value()] != 'black'):
-                    motorEsquerda.run_forever(speed_sp=-150)
-                else:
-                    motorEsquerda.run_forever(speed_sp=0)
-            motorEsquerda.run_forever(speed_sp=0)
-            motorDireita.run_forever(speed_sp=0)
-        '''
+    motorEsquerda.stop(stop_action='hold')
+    motorDireita.stop(stop_action='hold')
+    cor_direita = SensorCorDir.value()
+    cor_esquerda = SensorCorDir.value()
+    print('cor direita ' + str(cor_direita) + ' cor esquerda ' + str(cor_esquerda))
+    booleano =  colors[SensorCorDir.value()] in cor_invalid
+    print('boolean:' + str(booleano))
+    motorEsquerda.run_timed(time_sp=500, speed_sp=-200)
+    motorDireita.run_timed(time_sp=500, speed_sp=-200)
+    if booleano:
+        girarRobo(-20)
+    elif not booleano:
+        girarRobo(20)
 
 def plaza():
-    global plaza
+    global plaza_sentido
     global times
     
-    plaza = True 
+    plaza_sentido = True 
     times = 7
     alinha(1)
     motorEsquerda.run_forever(speed_sp=200)
@@ -340,9 +279,10 @@ def plaza():
 #funcao main -------------------------------------------------------------------
 def main():
     global has_boneco
-    global plaza
+    global plaza_sentido
     global labyrinth
     global times
+    global cor_inter
  
 
     btn = Button()
@@ -351,26 +291,52 @@ def main():
     Sound.speak('Hello Humans!').wait()
     motorGarra.run_to_rel_pos(position_sp=290, speed_sp=100, stop_action="hold") # abrir garra
     print(ultrassonico.value())
+    print('cor_direta: ' + str(SensorCorDir.value()))
+    print('cor_esquerda: ' + str(SensorCorEsq.value()))
     global ultra_distance
+
     while not btn.any():
         if colors[SensorCorDir.value()] == 'white' and colors[SensorCorEsq.value()] == 'white':
+            print("bloco:branco")
             andarReto()
             ultra_return = ultra()
-            if ultra_return < ultra_distance and not has_boneco and labyrinth and not plaza:
+    
+            if ultra_return < ultra_distance and not has_boneco and labyrinth and not plaza_sentido:
                 captura(ultra_return)#caso way == 0, a funcao troca() eh chamada dentro da funcao agarrarBoneco()
-        elif (colors[SensorCorDir.value()] != 'white') or (colors[SensorCorEsq.value()] != 'white') and not plaza: #Condição de saída de pista
-            if (colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorEsq.value()] =='none') or (colors[SensorCorEsq.value()] == 'black'):
-                sleep(0.2)
-                if (colors[SensorCorDir.value()] == 'black') and (colors[SensorCorEsq.value()] =='black'): #Condição Fim de rua (Pós sleep)
-                    alinha(1)
-                    cor = 0 #caso de rua sem saida: old_color recebe 0 novamente
-                    volta()
-                elif (colors[SensorCorDir.value()] == 'none') or (colors[SensorCorDir.value()] == 'black') or (colors[SensorCorDir.value()] == 'brown') or (colors[SensorCorEsq.value()] =='none') or (colors[SensorCorEsq.value()] == 'black'):
-                    manobra1()
-            elif colors[SensorCorDir.value()] != 'white' and colors[SensorCorDir.value()] != 'black' and colors[SensorCorEsq.value()] != 'white' and colors[SensorCorEsq.value()] != 'black':
+    
+        elif (colors[SensorCorDir.value()] != 'white') or (colors[SensorCorEsq.value()] != 'white'): 
+            print('bloco: diferente de branco')   
+            print('plaza: ' + str(plaza_sentido))      
+            if not plaza_sentido:
+                print('bloco:volta ou manobra')
+                if (colors[SensorCorDir.value()] in cor_invalid) or (colors[SensorCorEsq.value()] in cor_invalid):
+                    sleep(0.2)
+                    if (colors[SensorCorDir.value()] == 'black') and (colors[SensorCorEsq.value()] =='black'): #Condição Fim de rua (Pós sleep)
+                        alinha(1)
+                        cor = 0 #caso de rua sem saida: old_color recebe 0 novamente
+                        volta()
+                    elif (colors[SensorCorDir.value()] in cor_invalid) or (colors[SensorCorEsq.value()] in cor_invalid):
+                        manobra1()
+            elif(((colors[SensorCorDir.value()] == 'white' and colors[SensorCorEsq.value()] in cor_inter) or (colors[SensorCorEsq.value()] == 'white' and colors[SensorCorDir.value()] in cor_inter))): 
+                print('arrumar falso branco')
+                motorDireita.run_timed(time_sp=500, speed_sp=200) #Retorna ao meio da pista
+                motorEsquerda.run_timed(time_sp=500, speed_sp=200)
+                    
+                if(colors[SensorCorDir.value()] == 'white' and colors[SensorCorEsq.value()] in cor_inter): # motorDireita errado
+                    while(colors[SensorCorEsq.value()] in cor_inter and colors[SensorCorEsq.value()] != 'white'):
+                        motorEsquerda.run_forever(speed_sp = -200)
+                        
+                    
+                elif(colors[SensorCorEsq.value()] == 'white' and colors[SensorCorDir.value()] in cor_inter): # motorEsquera errado
+                    while(colors[SensorCorEsq.value()] in cor_inter and colors[SensorCorEsq.value()] != 'white'):
+                        motorDireita.run_forever(speed_sp = -200)
+
+            elif colors[SensorCorDir.value()] in cor_inter and colors[SensorCorEsq.value()] in cor_inter:
+                print('cor valida')
                 old_color = cor #dependemos da cor anterior para saber se a direcao esta correta
                 sleep(0.2)
-                if colors[SensorCorDir.value()] != 'white' and colors[SensorCorDir.value()] != 'black' and colors[SensorCorEsq.value()] != 'white' and colors[SensorCorEsq.value()] != 'black':
+                
+                if colors[SensorCorDir.value()] in cor_inter and colors[SensorCorEsq.value()] in cor_inter:
                     alinha(1)
                     motorDireita.run_forever(speed_sp=200)
                     motorEsquerda.run_forever(speed_sp=200)
@@ -378,19 +344,24 @@ def main():
                     #motorEsquerda.run_timed(time_sp=1000, speed_sp=200)
                     sleep(0.3)
                     cor = SensorCorDir.value() #NOTE: pegar de um sensor só?
+                
                     if times < number_of_inter+1:
                         interseccao(old_color, cor)
+                
                     elif times == number_of_inter and labyrinth and has_boneco:
-                        #plaza()#TODO e NOTE: mudar flag plaza
-                        if(plaza == True):
+                        if(plaza_sentido == True):
                             alinha(1)
                             sleep(0.8) # passar pelas três faixas
-                            plaza = False 
+                            plaza_sentido = False 
                             times = 6
                         else:
                             plaza()
+                
                     elif times == number_of_inter and not labyrinth:
                         troca()
                         volta()
+			
+			
 if __name__ == '__main__':
     main()
+

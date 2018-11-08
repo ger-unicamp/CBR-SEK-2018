@@ -80,7 +80,7 @@ def main():
     btn = Button()
     calibraGyro()
     Sound.speak('Hello Humans!').wait()
-    motorGarra.run_to_rel_pos(position_sp=190, speed_sp=100, stop_action="hold")
+    motorGarra.run_to_rel_pos(position_sp=-200, speed_sp=100, stop_action="hold")
     sleep(2)
     # motorGarra.run_to_rel_pos(position_sp=-200, speed_sp=100, stop_action="hold")
     sleep(2)
