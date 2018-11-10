@@ -31,9 +31,9 @@ from time import sleep
 #variaveis globais e flags------------------------------------------------------
 colors=('none','black','blue','green','yellow','red','white','brown')
 distMax = 84 #distancia maxima da parede para se manter centralizado
-distMin = 74 #distancia minima para se manter centralizado
+distMin = 76 #distancia minima para se manter centralizado
 primeiroRe = 8 #sleep para percorrer o plaza (largura)
-segundoRe = 6 #sleep para percorrer o plaza (comprimento)
+segundoRe = 8 #sleep para percorrer o plaza (comprimento)
 distSaida = 40 #valor do ultrassonico para sair do plaza
 plazaSentido = 0 #flag para muadr o sentido do plaza - 0 chegada; 1 saida
 gyro_const = 4
@@ -71,6 +71,22 @@ def calibraGyro():
     sleep(0.3)
     gyro.mode = 'GYRO-ANG'
     sleep(0.3)
+
+def alinha(sentido):
+    print('ALINHA')
+    motorEsquerda.stop(stop_action = 'hold')
+    motorDireita.stop(stop_action = 'hold')
+    while(colors[SensorCorDir.value()] != 'white') or (colors[SensorCorEsq.value()] != 'white'):
+        if(colors[SensorCorDir.value()] != 'white'): #Enquanto os dois não estiverem fora da interssecção ou fora do fim de pista, alinha os dois sensores
+            motorDireita.run_forever(speed_sp=-180*sentido) #em branco
+        else:
+            motorDireita.stop(stop_action = 'hold')
+        if(colors[SensorCorEsq.value()] != 'white'):
+            motorEsquerda.run_forever(speed_sp=-180*sentido)
+        else:
+            motorEsquerda.stop(stop_action = 'hold')
+    motorEsquerda.stop(stop_action = 'hold')
+    motorDireita.stop(stop_action = 'hold')
 
 def girarRobo(anguloDesejado):
     calibraGyro()
@@ -137,16 +153,19 @@ def depositarBoneco():
         print('sensor direito ' + str(colors[SensorCorDir.value()]))
         print('sensor esquerdo ' + str(colors[SensorCorEsq.value()]))
         dist = ultra()
+        print('dist: ' + str(dist))
         if(dist < distMin): # arrumar para direita
+            print('arrumar para direita')
             motorDireita.run_forever(speed_sp=200)
             motorEsquerda.run_forever(speed_sp=180)
         if(dist > distMax): # arrumar para esquerda
+            print('arrumar para esquerdo')
             motorDireita.run_forever(speed_sp=180)
             motorEsquerda.run_forever(speed_sp=200)
     sleep(0.1)
     motorDireita.stop(stop_action = 'hold')
     motorEsquerda.stop(stop_action = 'hold')
-    if(colors[SensorCorDir.value()] == "black") or (colors[SensorCorEsq.value()] == "black"):
+    if(colors[SensorCorDir.value()] == "black") and (colors[SensorCorEsq.value()] == "black"):
         sleep(0.1) #Esse sleep serve para não ficar na borda do centro preto
         motorDireita.stop(stop_action = 'hold')
         motorEsquerda.stop(stop_action = 'hold')
@@ -154,7 +173,7 @@ def depositarBoneco():
     sleep(1.7)
     motorDireita.run_forever(speed_sp=-200)
     motorEsquerda.run_forever(speed_sp=-200)
-    sleep(0.4)
+    sleep(0.8)
     plazaSentido = 1
 
 def voltaRua():
@@ -179,13 +198,51 @@ def voltaRua():
         motorEsquerda.run_forever(speed_sp=150)
         dist = ultra()
 
+    motorDireita.stop(stop_action = 'hold')
+    motorEsquerda.stop(stop_action = 'hold')
     print('vi a saida e dist: ' + str(dist))
-    andar(0.1,1) # se centralizar na porta de saida
+    andar(0.04,1) # se centralizar na porta de saida
     girarRobo(90)
     plazaSentido = 0
 
 
 def plaza():
+    '''
+    while(colors[SensorCorDir.value()] == 'white' or colors[SensorCorEsq.value()] == 'white'):
+        motorEsquerda.run_forever(speed_sp=100)
+        motorDireita.run_forever(speed_sp=100)
+    motorDireita.stop(stop_action = 'hold')
+    motorEsquerda.stop(stop_action = 'hold')
+    
+    motorEsquerda.run_forever(speed_sp=-150)
+    motorDireita.run_forever(speed_sp=-150)
+    sleep(2)
+    #motorDireita.run_timed(time_sp = 3000, speed_sp =-170)
+    #motorEsquerda.run_timed(time_sp = 3000, speed_sp =-170)
+    motorDireita.stop(stop_action = 'hold')
+    motorEsquerda.stop(stop_action = 'hold')
+    while(colors[SensorCorDir.value()] == 'white' and colors[SensorCorEsq.value()] == 'white'):
+        motorEsquerda.run_forever(speed_sp=150)
+        motorDireita.run_forever(speed_sp=150)
+    motorDireita.stop(stop_action = 'hold')
+    motorEsquerda.stop(stop_action = 'hold')
+    if(colors[SensorCorDir.value()] == 'red'):
+        while(colors[SensorCorDir.value()] == 'red'):
+            motorDireita.run_forever(speed_sp = -150)
+        motorDireita.stop(stop_action = 'hold')
+    if(colors[SensorCorEsq.value()] == 'red'):
+        while(colors[SensorCorEsq.value()] == 'red'):
+            motorEsquerda.run_forever(speed_sp = -150)
+        motorEsquerda.stop(stop_action = 'hold')
+    
+    motorDireita.stop(stop_action = 'hold')
+    motorEsquerda.stop(stop_action = 'hold')
+    
+    alinha(1)
+    motorEsquerda.run_forever(speed_sp=150)
+    motorDireita.run_forever(speed_sp=150)
+    sleep(4) #testar 
+    '''
     print('comecou')
     depositarBoneco()
     print('deixou boneco')
@@ -193,7 +250,11 @@ def plaza():
     print('volta rua')
     voltaRua()
 
-   
+'''
+if __name__== '__main__':
+    Sound.speak('Hello Humans!').wait()
+    plaza()
+'''
 
 
 
